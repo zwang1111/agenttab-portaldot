@@ -1,0 +1,10 @@
+# Portaldot V3 testnet deploy dry run — 2026-10-17 14:50:40 UTC+8
+# RPC https://test-evm-rpc-v3.portaldot.dev  chainId 420420777  client "eth-rpc/main-fddd431/x86_64-unknown-linux-gnu/rustc1.98.0"
+# block 70906
+# deployer (throwaway) 0x9e2e2024c7dcA86e57608e2ceAD160081c381fDd balance 0
+# eth_call(create AgentTab) -> runtime code returned, length (hex chars):
+15217
+# eth_estimateGas(create AgentTab):
+"0x34fd06766aa4f2"
+# local runtime code length:
+15217
