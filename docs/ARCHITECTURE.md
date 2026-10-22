@@ -78,6 +78,65 @@ planckToWei(10n ** 14n);      // 10^18 wei
 
 `open{value:}` amounts must be a multiple of 10_000 wei. Anything smaller is not an integer planck, and `buildOpenNativeTab` rejects it.
 
+Reported EVM balance applies that ratio after the existential deposit and revive dust: `eth_getBalance = (free - 10^13) * 10000 + dust`. On spec 3002 the deployer fallback account (`5Fe78D5g5NcrMU2J97UXdQEMU1DSNwgh7knaHirpD8J8th3U`) had `free = 15215275935089184` planck, `reserved = 0`, `frozen = 0`, dust `4660` wei, and existential deposit `10^13` planck (0.1 tPOT). Both `eth_getBalance` and `ReviveApi_balance` were `152052759350891844660`. `substrate/src/probe.ts` checks that identity on every run.
+
+## Substrate entry (same contract)
+
+EVM JSON-RPC and a native `5…` account both enter pallet-revive and execute the deployed `AgentTab` at `0x9a096C216f79e08C2DB95d92F412697D8F1f9329`.
+
+```mermaid
+flowchart LR
+  EVM["EVM JSON-RPC\neth_call / legacy tx"] --> REV["pallet-revive"]
+  ACC["AccountId32\n5…"] --> DRY["ReviveApi_call\nstate_call dry-run"]
+  ACC --> EXT["Revive.call\npallet 80, call 1"]
+  DRY --> REV
+  EXT --> REV
+  REV --> TAB["AgentTab.sol"]
+  TAB --> POT["native tPOT\ntoken = address 0"]
+  TAB --> PRE["Assets ERC-20 precompile\nprefix 0x0001"]
+```
+
+`substrate/` encodes both calls. `npm run revive-probe` talks to the live testnet and writes `runs/revive-probe.json`. It uses `state_call`, `eth_call`, and `state_getStorage` only. It does not sign and it does not submit.
+
+What that probe showed at block 148943 (spec `portaldot-v3` 3002):
+
+| Check | Result |
+|---|---|
+| Origin | Deployer fallback `5Fe78…`. `ReviveApi_address` and `ReviveApi_account_id` round-trip the public H160. |
+| `remaining(1)` | `ReviveApi_call` and `eth_call` both return `5000000000000000`. |
+| `tabs(1)` / `nextId()` | Same bytes as `eth_call`. `nextId` is 3. |
+| `Revive.call` bytes | Unsigned SCALE `0x5001…` for `remaining(1)`, weight from that dry-run. Not submitted. |
+| `settle` dry-run | Reverted `NotProvider` (`0x3480e2b2`). Tab 1's provider is `0x7F22…`, and this origin is the payer. The contract ran. Nothing was settled. |
+
+Account mapping on this runtime (`AccountId32Mapper`): an eth-derived id is `H160` plus twelve `0xEE` bytes; any other id maps to `keccak256(accountId)[12:]`. Spec 3002 sets `Revive.AutoMap = true`, so `map_account` fails with `AutoMappingEnabled`.
+
+### Optional Assets ERC-20 tab
+
+The Assets pallet is on this testnet, and pallet-revive exposes it as an ERC-20 precompile. Polkadot Hub suffixes `0x0120` / `0x0220` / `0x0320` return empty code here; the live prefix is `0x0001`.
+
+```
+bytes 0..4   asset id, big-endian
+bytes 4..16  zero
+bytes 16..18 0x0001
+bytes 18..20 zero
+```
+
+Asset id 2 (`TEST`, 18 decimals) is `0x0000000200000000000000000000000000010000`. Its `totalSupply` is `15000000000000000000` from `Assets.Asset(2)`, from `eth_call`, and from `ReviveApi_call`. `name` / `symbol` / `decimals` respond on this runtime. `AssetsPrecompiles.ForeignAssetIdToAssetIndex(2)` is `1`, and prefix `0x0001` with id `1` returns supply `0`, so the foreign index is not what you put in the address. Prefix `0x0002` matches `PoolAssets`, not the tab helper.
+
+```ts
+import { buildOpenErc20Tab } from "agenttab-portaldot-sdk";
+
+const call = buildOpenErc20Tab({
+  provider: "0x…",
+  assetId: 2,
+  amount: 1n,
+  expiry: 1_893_456_000n,
+});
+// call.value === 0n; call.token is the precompile. Caller must approve AgentTab first.
+```
+
+A `ReviveApi_call` of that `open` from the deployer fallback reverted with empty returndata after 183504695 gas. No ERC-20 tab was opened. The HTTP 402 gateway still prices only native tPOT.
+
 ## Opening a tab, then paying
 
 1. Fund the **mapped SS58 account** (Developer → reviveApi → accountId in the node console). The H160 from the same key is not the Substrate account that holds tPOT.

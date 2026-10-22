@@ -1,0 +1,114 @@
+{
+  "submitted": false,
+  "note": "state_call / eth_call / state_getStorage only. No extrinsic was signed or submitted.",
+  "probedAt": "2026-10-22T17:28:51.637Z",
+  "chain": "PortaldotV3 Test",
+  "specName": "portaldot-v3",
+  "specVersion": 3002,
+  "blockNumber": 148951,
+  "rpc": {
+    "evm": "https://test-evm-rpc-v3.portaldot.dev",
+    "substrate": "wss://test-node-v3.portaldot.dev"
+  },
+  "origin": {
+    "ss58": "5Fe78D5g5NcrMU2J97UXdQEMU1DSNwgh7knaHirpD8J8th3U",
+    "accountId": "0x9e2e2024c7dca86e57608e2cead160081c381fddeeeeeeeeeeeeeeeeeeeeeeee",
+    "derivedH160": "0x9e2e2024c7dca86e57608e2cead160081c381fdd",
+    "reviveApiAddress": "0x9e2e2024c7dca86e57608e2cead160081c381fdd",
+    "addressMatch": true,
+    "reviveApiAccountIdOfDeployer": "0x9e2e2024c7dca86e57608e2cead160081c381fddeeeeeeeeeeeeeeeeeeeeeeee",
+    "accountIdMatch": true
+  },
+  "agentTab": {
+    "address": "0x9a096C216f79e08C2DB95d92F412697D8F1f9329",
+    "tabId": "1",
+    "remaining": {
+      "ethCall": "5000000000000000",
+      "reviveApi": "5000000000000000",
+      "match": true
+    },
+    "nextId": {
+      "ethCall": "3",
+      "reviveApi": "3",
+      "match": true
+    },
+    "tabs": {
+      "payer": "0x9e2e2024c7dcA86e57608e2ceAD160081c381fDd",
+      "provider": "0x7F220d4db849E7Ee220f9F8fdD99fc016b3F3369",
+      "token": "0x0000000000000000000000000000000000000000",
+      "deposit": "10000000000000000",
+      "claimed": "5000000000000000",
+      "expiry": "1792681392",
+      "reviveDataMatch": true
+    },
+    "weightRequired": {
+      "refTime": "92706378",
+      "proofSize": "13618"
+    },
+    "reviveCallHex": "0x50019a096c216f79e08c2db95d92f412697d8f1f9329002a591a16c9d400900361bf140000000000000000000000000000000000000000000000000000000000000001",
+    "reviveCallHexNote": "SCALE of pallet 80 call 1 (Revive.call) for remaining(tab). Unsigned. Not submitted."
+  },
+  "settleDryRun": {
+    "submitted": false,
+    "tabId": "1",
+    "ok": false,
+    "reverted": true,
+    "flags": 1,
+    "gasConsumed": "24940062",
+    "errorName": "NotProvider",
+    "data": "0x3480e2b2",
+    "dispatchErrorHex": null
+  },
+  "balance": {
+    "freePlanck": "15215275935089184",
+    "reservedPlanck": "0",
+    "frozenPlanck": "0",
+    "existentialDepositPlanck": "10000000000000",
+    "dustWei": 4660,
+    "ethGetBalance": "152052759350891844660",
+    "predictedWei": "152052759350891844660",
+    "identityHolds": true,
+    "weiPerPlanck": "10000"
+  },
+  "assetsPrecompile": {
+    "prefix": "0x0001",
+    "formula": "bytes[0..4] = assetId big-endian, bytes[16..18] = 0x0001, bytes[18..20] = 0",
+    "assetId": 2,
+    "address": "0x0000000200000000000000000000000000010000",
+    "storageSupply": "15000000000000000000",
+    "storageMetadata": {
+      "name": "test asset",
+      "symbol": "TEST",
+      "decimals": 18
+    },
+    "ethName": "test asset",
+    "ethSymbol": "TEST",
+    "ethDecimals": 18,
+    "ethTotalSupply": "15000000000000000000",
+    "reviveTotalSupply": "15000000000000000000",
+    "supplyMatch": true,
+    "foreignIndexForAsset": 1,
+    "totalSupplyAtForeignIndex": "0",
+    "foreignIndexIsNotTheAddressId": true,
+    "poolAssets": {
+      "prefix": "0x0002",
+      "id": 0,
+      "storageSupply": "316227766016837933",
+      "ethTotalSupply": "316227766016837933",
+      "match": true
+    },
+    "polkadotHubLocalSuffixCode": "0x"
+  },
+  "erc20OpenDryRun": {
+    "submitted": false,
+    "token": "0x0000000200000000000000000000000000010000",
+    "amount": "1",
+    "ok": false,
+    "reverted": true,
+    "flags": 1,
+    "gasConsumed": "183504695",
+    "errorName": null,
+    "data": "0x",
+    "note": "Reverted with empty returndata. Not a mined open. The matching totalSupply read is the successful Assets precompile call."
+  }
+}

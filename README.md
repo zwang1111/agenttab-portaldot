@@ -30,6 +30,17 @@ sequenceDiagram
 
 Component notes, the 14-decimal / 18-decimal split, and the voucher checks: [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md).
 
+The same bytecode is also reachable from a native Substrate account. `ReviveApi_call` is the dry-run; `Revive.call` (pallet 80, call 1) is the extrinsic. No second contract.
+
+```mermaid
+flowchart LR
+  EVM["EVM JSON-RPC"] --> REV["pallet-revive"]
+  ACC["Substrate account 5…"] --> REV
+  REV --> TAB["AgentTab.sol"]
+  TAB --> POT["native tPOT"]
+  TAB --> PRE["optional Assets ERC-20\nprefix 0x0001"]
+```
+
 ## Status (2026-10-22)
 - Contract ported and tested: `forge test` → 7 passing (ERC-20 tabs, native tabs, bad sig, stale, exceeds, refund, top-up).
 - **Deployed on Portaldot V3 testnet** (chain `420420777`):
@@ -38,6 +49,7 @@ Component notes, the 14-decimal / 18-decimal split, and the voucher checks: [`do
   - Demo open: `0xc27ab271b49103a257046c7458805ed1c73988d464f61aa98bfe6338a13e534e`
   - Demo settle: `0xd58678d04863861cda814284eb2879d0abcaf85ca64779cc5e69f2a670b8ac5b` (native tPOT tab #1)
 - **Provider gateway + TypeScript SDK** (`gateway/`, `sdk/`): unpaid `GET /quote` returns 402; a signed voucher is verified locally. `npm test` and `npm run dry-run` need no RPC and no key. **Live testnet demo 2026-10-23:** open tab #2 `0x9922d9a7…`, settle `0x2031c40d…` (see `DEPLOYMENT.md`).
+- **Substrate path** (`substrate/`): `ReviveApi_call` from the deployer's public fallback account `5Fe78…` reads `remaining(1) == 5e15`, matching `eth_call`. A `settle` dry-run reverts `NotProvider`. Unsigned `Revive.call` bytes are in `runs/revive-probe.json`. No Substrate extrinsic was submitted.
 - Full addresses, hashes, and explorer notes: [`DEPLOYMENT.md`](DEPLOYMENT.md) / [`deployments/portaldot-testnet.json`](deployments/portaldot-testnet.json).
 - DoraHacks check-in copy-paste (中文 + English): [`CHECKIN.md`](CHECKIN.md).
 
@@ -94,6 +106,12 @@ API_BASE=http://127.0.0.1:8402 TAB_ID=1 AGENT_PK=0x... npm run call
 
 `open` / `topUp` / `settle` go out as legacy transactions. pallet-revive's `eth_estimateGas` is much larger than an Ethereum gas limit; the SDK passes that estimate through, same as [`scripts/deploy.sh`](scripts/deploy.sh).
 
+Substrate dry-run (no key, reads the public testnet, writes `runs/revive-probe.json`):
+
+```bash
+npm run revive-probe
+```
+
 Contract-only deploy (no gateway):
 
 ```bash
@@ -136,5 +154,6 @@ Portaldot-only code, written for this Hacker House:
 - native tPOT tabs in the contract port (`token = address(0)`, payable `open` / `topUp`, `call{value:}` payouts, reentrancy guard)
 - `sdk/` — chain `420420777`, 14-decimal planck ↔ 18-decimal wei helpers, EIP-712 sign/verify, legacy gas for pallet-revive
 - `gateway/` — HTTP 402 whose body names the AgentTab rail and the deployed testnet contract
+- `substrate/` — `ReviveApi_call` / `Revive.call` from an `AccountId32`, and `buildOpenErc20Tab` for the Assets precompile at prefix `0x0001`
 
 Dependencies: forge-std (MIT/Apache-2.0), viem (MIT), hono (MIT). The TypeScript packages are MIT. Built with AI assistance (coding agent).
