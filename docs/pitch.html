@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>AgentTab on Portaldot — DoraHacks Hacker House Pitch</title>
+<meta name="description" content="Pay-per-call escrow tabs for AI agents on Portaldot V3 EVM. Modular Cloud & Middleware track." />
+<style>
+  :root {
+    --bg: #0b1020;
+    --bg2: #121a33;
+    --card: #161f3a;
+    --accent: #6ee7b7;
+    --accent2: #60a5fa;
+    --warn: #fbbf24;
+    --text: #e8eefc;
+    --muted: #9aa8c7;
+    --border: rgba(110, 231, 183, 0.22);
+    --danger: #f87171;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body {
+    height: 100%;
+    background: var(--bg);
+    color: var(--text);
+    font-family: Inter, "Segoe UI", system-ui, -apple-system, sans-serif;
+    overflow: hidden;
+  }
+  .deck { height: 100%; position: relative; }
+  .slide {
+    display: none;
+    height: 100%;
+    padding: clamp(28px, 5vw, 64px) clamp(32px, 6vw, 80px);
+    background:
+      radial-gradient(1200px 600px at 10% -10%, rgba(96,165,250,0.18), transparent 55%),
+      radial-gradient(900px 500px at 100% 0%, rgba(110,231,183,0.12), transparent 50%),
+      linear-gradient(160deg, var(--bg) 0%, var(--bg2) 100%);
+    flex-direction: column;
+    justify-content: center;
+    gap: 1.1rem;
+  }
+  .slide.active { display: flex; animation: fadeIn 280ms ease; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+
+  .kicker {
+    color: var(--accent);
+    font-size: 0.85rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+  h1 {
+    font-size: clamp(2.2rem, 5.2vw, 3.6rem);
+    line-height: 1.12;
+    font-weight: 800;
+    max-width: 18ch;
+  }
+  h2 {
+    font-size: clamp(1.7rem, 3.6vw, 2.6rem);
+    font-weight: 800;
+    line-height: 1.15;
+  }
+  .subtitle {
+    color: var(--muted);
+    font-size: clamp(1.05rem, 2vw, 1.35rem);
+    max-width: 52ch;
+    line-height: 1.5;
+  }
+  .pill-row { display: flex; flex-wrap: wrap; gap: 0.55rem; margin-top: 0.4rem; }
+  .pill {
+    border: 1px solid var(--border);
+    background: rgba(22, 31, 58, 0.7);
+    color: var(--accent);
+    padding: 0.35rem 0.75rem;
+    border-radius: 999px;
+    font-size: 0.85rem;
+    font-weight: 600;
+  }
+  .grid2 {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 1rem;
+    margin-top: 0.5rem;
+  }
+  .card {
+    background: rgba(22, 31, 58, 0.85);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 16px;
+    padding: 1.15rem 1.25rem;
+  }
+  .card h3 {
+    font-size: 1.05rem;
+    margin-bottom: 0.45rem;
+    color: var(--accent2);
+  }
+  .card p, .card li { color: var(--muted); line-height: 1.45; font-size: 0.98rem; }
+  .card ul { padding-left: 1.1rem; }
+  .card li + li { margin-top: 0.35rem; }
+  .mono {
+    font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+    font-size: 0.82rem;
+    word-break: break-all;
+    color: var(--accent);
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 0.4rem;
+    font-size: 0.92rem;
+  }
+  th, td {
+    text-align: left;
+    padding: 0.55rem 0.65rem;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+    vertical-align: top;
+  }
+  th { color: var(--muted); font-weight: 600; width: 28%; }
+  td.mono { color: var(--accent); }
+  .flow {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: stretch;
+    gap: 0.65rem;
+    margin-top: 0.6rem;
+  }
+  .step {
+    flex: 1 1 140px;
+    background: rgba(22,31,58,0.9);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 0.9rem 1rem;
+    position: relative;
+  }
+  .step .n {
+    color: var(--warn);
+    font-weight: 800;
+    font-size: 0.8rem;
+    letter-spacing: 0.08em;
+  }
+  .step strong { display: block; margin: 0.25rem 0; font-size: 1.05rem; }
+  .step span { color: var(--muted); font-size: 0.9rem; line-height: 1.35; }
+  .arrow {
+    align-self: center;
+    color: var(--accent);
+    font-size: 1.4rem;
+    font-weight: 700;
+  }
+  .ask-box {
+    border: 1px solid var(--border);
+    background: linear-gradient(135deg, rgba(110,231,183,0.12), rgba(96,165,250,0.1));
+    border-radius: 18px;
+    padding: 1.25rem 1.4rem;
+    max-width: 60ch;
+  }
+  .ask-box p { color: var(--muted); line-height: 1.5; margin-top: 0.4rem; }
+  .footer-meta {
+    position: absolute;
+    left: clamp(32px, 6vw, 80px);
+    bottom: 22px;
+    right: clamp(32px, 6vw, 80px);
+    display: flex;
+    justify-content: space-between;
+    color: var(--muted);
+    font-size: 0.78rem;
+    pointer-events: none;
+  }
+  .nav {
+    position: fixed;
+    right: 18px;
+    bottom: 18px;
+    display: flex;
+    gap: 0.4rem;
+    z-index: 10;
+  }
+  .nav button {
+    background: rgba(22,31,58,0.95);
+    border: 1px solid rgba(255,255,255,0.14);
+    color: var(--text);
+    border-radius: 10px;
+    padding: 0.45rem 0.75rem;
+    cursor: pointer;
+    font-weight: 600;
+  }
+  .nav button:hover { border-color: var(--accent); color: var(--accent); }
+  .dots {
+    position: fixed;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: 22px;
+    display: flex;
+    gap: 0.35rem;
+    z-index: 10;
+  }
+  .dots button {
+    width: 8px; height: 8px; border-radius: 50%;
+    border: none; background: rgba(255,255,255,0.25); cursor: pointer;
+  }
+  .dots button.on { background: var(--accent); width: 18px; border-radius: 6px; }
+  a { color: var(--accent2); }
+  .one-liner {
+    font-size: clamp(1.15rem, 2.4vw, 1.55rem);
+    line-height: 1.45;
+    max-width: 40ch;
+    font-weight: 600;
+  }
+  .highlight { color: var(--accent); }
+  @media print {
+    html, body { overflow: visible; height: auto; background: #fff; color: #111; }
+    .slide {
+      display: flex !important;
+      page-break-after: always;
+      min-height: 100vh;
+      background: #0b1020;
+      color: #e8eefc;
+    }
+    .nav, .dots { display: none; }
+  }
+</style>
+</head>
+<body>
+<div class="deck" id="deck">
+
+  <!-- 1 -->
+  <section class="slide active" data-title="Title">
+    <div class="kicker">DoraHacks · Portaldot Hacker House 2026 · Week 2</div>
+    <h1>AgentTab on <span class="highlight">Portaldot V3</span></h1>
+    <p class="subtitle">Pay-per-call escrow tabs for AI agents — open once, voucher every call, settle in batch on Portaldot’s EVM layer.</p>
+    <div class="pill-row">
+      <span class="pill">Track: Modular Cloud & Middleware</span>
+      <span class="pill">Chain 420420777</span>
+      <span class="pill">BUIDL #50150</span>
+      <span class="pill">Live on testnet</span>
+    </div>
+    <p class="subtitle" style="margin-top:0.8rem;font-size:0.95rem;">
+      Repo: <a href="https://github.com/zwang1111/agenttab-portaldot">github.com/zwang1111/agenttab-portaldot</a>
+      · BUIDL: <a href="https://dorahacks.io/build/50150">dorahacks.io/build/50150</a>
+    </p>
+  </section>
+
+  <!-- 2 -->
+  <section class="slide" data-title="Problem">
+    <div class="kicker">The problem</div>
+    <h2>AI agents can pay. They can’t manage API keys.</h2>
+    <div class="grid2">
+      <div class="card">
+        <h3>Human-shaped billing breaks agents</h3>
+        <ul>
+          <li>Subscriptions and dashboards assume a human operator</li>
+          <li>API keys are secrets agents shouldn’t hold long-term</li>
+          <li>Per-call on-chain gas kills micropayments</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>What machine-to-machine needs</h3>
+        <ul>
+          <li>Escrow once, pay incrementally</li>
+          <li>Cryptographic vouchers, not passwords</li>
+          <li>Provider batch settlement without trusting the agent after deposit</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3 -->
+  <section class="slide" data-title="Why Portaldot">
+    <div class="kicker">Why Portaldot V3</div>
+    <h2>EVM apps on a Substrate-native stack</h2>
+    <div class="grid2">
+      <div class="card">
+        <h3>Execution</h3>
+        <p>Portaldot V3 exposes an EVM-compatible layer (pallet-revive). Solidity contracts ship with familiar tooling — Foundry, cast, viem — while staying on Portaldot’s testnet.</p>
+      </div>
+      <div class="card">
+        <h3>Native tPOT tabs</h3>
+        <p>AgentTab escrows native <strong style="color:var(--text)">tPOTv3</strong> (14 decimals on Substrate) or any ERC-20. Middleware for agent payments fits the Modular Cloud track.</p>
+      </div>
+      <div class="card">
+        <h3>Interop path</h3>
+        <p>Roadmap: settle via <span class="mono">Revive.call</span> from native <span class="mono">5…</span> accounts; Assets-pallet tokens as tab currency.</p>
+      </div>
+      <div class="card">
+        <h3>Network facts</h3>
+        <p>Chain ID <span class="mono">420420777</span><br/>
+        RPC <span class="mono">test-evm-rpc-v3.portaldot.dev</span><br/>
+        Console <a href="https://node-console.portaldot.dev">node-console.portaldot.dev</a></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4 -->
+  <section class="slide" data-title="Solution">
+    <div class="kicker">Solution</div>
+    <h2>AgentTab — escrow + EIP-712 vouchers</h2>
+    <p class="one-liner">Agents escrow tPOT once, sign a voucher per API call; providers batch-settle on Portaldot V3 — micropayments without API keys or per-call gas.</p>
+    <div class="grid2" style="margin-top:0.8rem;">
+      <div class="card">
+        <h3>open</h3>
+        <p>Payer deposits native tPOT (or ERC-20) for a provider, with expiry. One tab, one escrow.</p>
+      </div>
+      <div class="card">
+        <h3>voucher</h3>
+        <p>Each call: agent signs EIP-712 <span class="mono">(tabId, cumulative)</span>. Provider returns HTTP 402 if missing/invalid.</p>
+      </div>
+      <div class="card">
+        <h3>settle</h3>
+        <p>Provider submits cumulative + sig once for N calls. Contract pays <span class="mono">cumulative − claimed</span>.</p>
+      </div>
+      <div class="card">
+        <h3>refund</h3>
+        <p>After expiry, payer reclaims unspent balance. Reentrancy guard + existence checks on every path.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5 -->
+  <section class="slide" data-title="Architecture">
+    <div class="kicker">Architecture</div>
+    <h2>Agent → Provider → AgentTab on Portaldot V3</h2>
+    <div class="flow">
+      <div class="step">
+        <div class="n">01</div>
+        <strong>AI agent</strong>
+        <span>open(provider, NATIVE, deposit, expiry) with tPOT value</span>
+      </div>
+      <div class="arrow">→</div>
+      <div class="step">
+        <div class="n">02</div>
+        <strong>API provider</strong>
+        <span>request + voucher sig; respond or HTTP 402</span>
+      </div>
+      <div class="arrow">→</div>
+      <div class="step">
+        <div class="n">03</div>
+        <strong>AgentTab.sol</strong>
+        <span>settle batches N calls; refund after expiry</span>
+      </div>
+    </div>
+    <div class="card" style="margin-top:1rem;">
+      <h3>Status (2026-10-22, Asia/Shanghai)</h3>
+      <p><span class="mono">forge test</span> → 7/7 passing (ERC-20 + native tabs, bad/stale/exceeds sig, refund, top-up). Ported from author’s MIT AgentTab (Celo); Portaldot-specific: native tabs, <span class="mono">call{value:}</span> payouts, reentrancy guard.</p>
+    </div>
+  </section>
+
+  <!-- 6 -->
+  <section class="slide" data-title="Live proof">
+    <div class="kicker">Live testnet proof</div>
+    <h2>Deployed on Portaldot V3 · chain 420420777</h2>
+    <table>
+      <tr><th>Contract</th><td class="mono">0x9a096C216f79e08C2DB95d92F412697D8F1f9329</td></tr>
+      <tr><th>Deploy tx</th><td class="mono">0xe8a4376602a5467574dd7f2e966006da4fe41275d28a989e33f116fa57baab72</td></tr>
+      <tr><th>Demo open</th><td class="mono">0xc27ab271b49103a257046c7458805ed1c73988d464f61aa98bfe6338a13e534e</td></tr>
+      <tr><th>Demo settle</th><td class="mono">0xd58678d04863861cda814284eb2879d0abcaf85ca64779cc5e69f2a670b8ac5b</td></tr>
+      <tr><th>Deployer</th><td class="mono">0x9e2e2024c7dcA86e57608e2ceAD160081c381fDd</td></tr>
+      <tr><th>Explorer</th><td><a href="https://node-console.portaldot.dev">node-console.portaldot.dev</a> · see also <span class="mono">DEPLOYMENT.md</span></td></tr>
+    </table>
+    <p class="subtitle" style="font-size:0.95rem;margin-top:0.6rem;">Native tPOT tab #1: deposit 1e16 wei → settle cumulative 5e15 wei via EIP-712 → remaining 5e15.</p>
+  </section>
+
+  <!-- 7 -->
+  <section class="slide" data-title="Demo flow">
+    <div class="kicker">Demo flow</div>
+    <h2>open → voucher → settle (on-chain today)</h2>
+    <div class="flow">
+      <div class="step">
+        <div class="n">OPEN</div>
+        <strong>Tab #1</strong>
+        <span>payer = deployer<br/>provider = 0x7F22…3369<br/>deposit = 1e16 wei native</span>
+      </div>
+      <div class="arrow">→</div>
+      <div class="step">
+        <div class="n">VOUCHER</div>
+        <strong>EIP-712</strong>
+        <span>agent signs<br/>(tabId=1, cumulative=5e15)<br/>off-chain, zero gas</span>
+      </div>
+      <div class="arrow">→</div>
+      <div class="step">
+        <div class="n">SETTLE</div>
+        <strong>Provider tx</strong>
+        <span>pays 5e15 to provider<br/>remaining(1) == 5e15<br/>hash 0xd58678d0…ac5b</span>
+      </div>
+    </div>
+    <div class="card" style="margin-top:1rem;">
+      <h3>Reproduce locally</h3>
+      <p class="mono">forge test && cp .env.example .env && scripts/deploy.sh</p>
+      <p style="margin-top:0.5rem;color:var(--muted);">Full hashes and redeploy notes: <span class="mono">DEPLOYMENT.md</span> · static replay: <span class="mono">docs/demo-checkin.mp4</span></p>
+    </div>
+  </section>
+
+  <!-- 8 -->
+  <section class="slide" data-title="Roadmap">
+    <div class="kicker">Roadmap / outstanding</div>
+    <h2>What’s next for final submission</h2>
+    <div class="grid2">
+      <div class="card">
+        <h3>Provider gateway + SDK</h3>
+        <p>HTTP 402 → EIP-712 voucher gateway. TypeScript agent SDK (viem, chain 420420777, 14-decimal helpers).</p>
+      </div>
+      <div class="card">
+        <h3>Substrate interop</h3>
+        <p>Settle via Revive.call from native 5… accounts. Assets-pallet token as tab currency (ERC-20 precompile or wrapped mock).</p>
+      </div>
+      <div class="card">
+        <h3>Dashboard</h3>
+        <p>Web UI for tabs / vouchers / settlements with node-console deep links.</p>
+      </div>
+      <div class="card">
+        <h3>Done for Week 2</h3>
+        <p>Contract live, open/settle proven, public repo + check-in assets (this deck + ≤3 min demo video).</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 9 -->
+  <section class="slide" data-title="Ask">
+    <div class="kicker">Ask</div>
+    <h2>Continued support &amp; office hours</h2>
+    <div class="ask-box">
+      <strong style="font-size:1.15rem;">We’re asking mentors / Portaldot for:</strong>
+      <p>
+        1) Feedback on native-token gas + <span class="mono">eth_estimateGas</span> quirks on V3 eth-rpc<br/>
+        2) Guidance on Revive.call / SS58 ↔ EVM address mapping for agent wallets<br/>
+        3) Office hours to pressure-test the HTTP 402 gateway design before final BUIDL polish
+      </p>
+    </div>
+    <p class="subtitle" style="margin-top:0.8rem;">
+      Public repo · live contract · demo txs already on-chain.<br/>
+      <a href="https://github.com/zwang1111/agenttab-portaldot">github.com/zwang1111/agenttab-portaldot</a>
+      · <a href="https://dorahacks.io/build/50150">BUIDL 50150</a>
+    </p>
+    <div class="pill-row">
+      <span class="pill">Thank you — AgentTab × Portaldot</span>
+    </div>
+  </section>
+
+</div>
+
+<div class="footer-meta">
+  <span>AgentTab · Modular Cloud & Middleware</span>
+  <span id="pageLabel">1 / 9</span>
+</div>
+<div class="dots" id="dots"></div>
+<nav class="nav">
+  <button type="button" id="prev" aria-label="Previous">←</button>
+  <button type="button" id="next" aria-label="Next">→</button>
+</nav>
+
+<script>
+(function () {
+  const slides = Array.from(document.querySelectorAll('.slide'));
+  const dots = document.getElementById('dots');
+  const pageLabel = document.getElementById('pageLabel');
+  let i = 0;
+  slides.forEach((_, idx) => {
+    const b = document.createElement('button');
+    b.type = 'button';
+    b.setAttribute('aria-label', 'Go to slide ' + (idx + 1));
+    b.addEventListener('click', () => show(idx));
+    dots.appendChild(b);
+  });
+  function show(n) {
+    i = (n + slides.length) % slides.length;
+    slides.forEach((s, j) => s.classList.toggle('active', j === i));
+    Array.from(dots.children).forEach((d, j) => d.classList.toggle('on', j === i));
+    pageLabel.textContent = (i + 1) + ' / ' + slides.length;
+    history.replaceState(null, '', '#' + (i + 1));
+  }
+  document.getElementById('prev').onclick = () => show(i - 1);
+  document.getElementById('next').onclick = () => show(i + 1);
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'PageDown') { e.preventDefault(); show(i + 1); }
+    if (e.key === 'ArrowLeft' || e.key === 'PageUp') { e.preventDefault(); show(i - 1); }
+    if (e.key === 'Home') show(0);
+    if (e.key === 'End') show(slides.length - 1);
+  });
+  let touchX = null;
+  document.addEventListener('touchstart', (e) => { touchX = e.changedTouches[0].screenX; }, { passive: true });
+  document.addEventListener('touchend', (e) => {
+    if (touchX == null) return;
+    const dx = e.changedTouches[0].screenX - touchX;
+    if (Math.abs(dx) > 50) show(i + (dx < 0 ? 1 : -1));
+    touchX = null;
+  }, { passive: true });
+  const hash = parseInt(location.hash.replace('#', ''), 10);
+  show(Number.isFinite(hash) && hash >= 1 && hash <= slides.length ? hash - 1 : 0);
+})();
+</script>
+</body>
+</html>
