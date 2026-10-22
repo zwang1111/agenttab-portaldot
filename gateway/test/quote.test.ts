@@ -139,6 +139,29 @@ test("bad signature, unknown tab, and malformed header stay on 402", async () =>
   assert.equal((await malformed.json()).error, "malformed_voucher");
 });
 
+test("GET /quote can be read from the static dashboard origin", async () => {
+  const { chain } = seed();
+  const app = appFor(chain);
+  const res = await app.request("http://127.0.0.1/quote", {
+    headers: { Origin: "http://127.0.0.1:4173" },
+  });
+  assert.equal(res.status, 402);
+  assert.equal(res.headers.get("access-control-allow-origin"), "*");
+  assert.match(res.headers.get("access-control-expose-headers") ?? "", /X-AgentTab-Required/);
+
+  const preflight = await app.request("http://127.0.0.1/quote", {
+    method: "OPTIONS",
+    headers: {
+      Origin: "http://127.0.0.1:4173",
+      "Access-Control-Request-Method": "GET",
+      "Access-Control-Request-Headers": "X-AgentTab-Voucher",
+    },
+  });
+  assert.equal(preflight.status, 204);
+  assert.equal(preflight.headers.get("access-control-allow-origin"), "*");
+  assert.match(preflight.headers.get("access-control-allow-headers") ?? "", /X-AgentTab-Voucher/);
+});
+
 test("config defaults to memory mode and does not require a key", () => {
   const cfg = configFromEnv({});
   assert.equal(cfg.mode, "memory");

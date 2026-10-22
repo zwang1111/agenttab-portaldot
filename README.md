@@ -50,6 +50,7 @@ flowchart LR
   - Demo settle: `0xd58678d04863861cda814284eb2879d0abcaf85ca64779cc5e69f2a670b8ac5b` (native tPOT tab #1)
 - **Provider gateway + TypeScript SDK** (`gateway/`, `sdk/`): unpaid `GET /quote` returns 402; a signed voucher is verified locally. `npm test` and `npm run dry-run` need no RPC and no key. **Live testnet demo 2026-10-23:** open tab #2 `0x9922d9a7…`, settle `0x2031c40d…` (see `DEPLOYMENT.md`).
 - **Substrate path** (`substrate/`): `ReviveApi_call` from the deployer's public fallback account `5Fe78…` reads `remaining(1) == 5e15`, matching `eth_call`. A `settle` dry-run reverts `NotProvider`. Unsigned `Revive.call` bytes are in `runs/revive-probe.json`. No Substrate extrinsic was submitted.
+- **Dashboard** ([`dashboard/`](dashboard/)): static tab inspector. `npm run dashboard` serves it with no key. Remaining, provider, and expiry come from the public RPC.
 - Full addresses, hashes, and explorer notes: [`DEPLOYMENT.md`](DEPLOYMENT.md) / [`deployments/portaldot-testnet.json`](deployments/portaldot-testnet.json).
 - DoraHacks check-in copy-paste (中文 + English): [`CHECKIN.md`](CHECKIN.md).
 
@@ -84,6 +85,17 @@ Unpaid response (truncated):
   "accept": { "scheme": "agenttab", "network": "eip155:420420777", "chainId": 420420777, "token": "0x0000000000000000000000000000000000000000" }
 }
 ```
+
+## Dashboard (no key)
+
+[`dashboard/`](dashboard/) is a static inspector. It calls `tabs`, `remaining`, `nextId`, and `Opened` / `Settled` logs on the public EVM RPC from the browser. If the RPC is quiet, the page stays empty instead of filling in a balance. Open and settle hashes link to the [node console](https://node-console.portaldot.dev) (paste the hash under Network → events; that site has no per-transaction route). The same page shows the local `GET /quote` 402 flow and can probe `http://127.0.0.1:8402/quote` when the gateway is running.
+
+```bash
+npm run dashboard
+# http://127.0.0.1:4173
+```
+
+The folder has no build step and no secret, so it can be published as GitHub Pages (serve the `dashboard/` directory) or opened from that local command. `npm run gateway` sends `Access-Control-Allow-Origin: *` on `GET /quote`, which is what lets the page read a loopback gateway.
 
 ## Run against Portaldot V3 testnet
 
@@ -155,5 +167,6 @@ Portaldot-only code, written for this Hacker House:
 - `sdk/` — chain `420420777`, 14-decimal planck ↔ 18-decimal wei helpers, EIP-712 sign/verify, legacy gas for pallet-revive
 - `gateway/` — HTTP 402 whose body names the AgentTab rail and the deployed testnet contract
 - `substrate/` — `ReviveApi_call` / `Revive.call` from an `AccountId32`, and `buildOpenErc20Tab` for the Assets precompile at prefix `0x0001`
+- `dashboard/` — static read of the deployed tab via the public RPC, plus the local 402 probe
 
 Dependencies: forge-std (MIT/Apache-2.0), viem (MIT), hono (MIT). The TypeScript packages are MIT. Built with AI assistance (coding agent).
