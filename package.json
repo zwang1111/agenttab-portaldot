@@ -1,0 +1,23 @@
+{
+  "name": "agenttab-portaldot",
+  "private": true,
+  "license": "MIT",
+  "type": "module",
+  "workspaces": [
+    "sdk",
+    "gateway"
+  ],
+  "scripts": {
+    "test": "npm test -w agenttab-portaldot-sdk && npm test -w agenttab-portaldot-gateway",
+    "typecheck": "npm run typecheck -w agenttab-portaldot-sdk && npm run typecheck -w agenttab-portaldot-gateway",
+    "dry-run": "tsx gateway/src/dry-run.ts",
+    "gateway": "npm run start -w agenttab-portaldot-gateway",
+    "call": "tsx gateway/src/call.ts",
+    "open-tab": "tsx gateway/src/open-tab.ts"
+  },
+  "devDependencies": {
+    "@types/node": "^22.15.0",
+    "tsx": "^4.20.3",
+    "typescript": "^5.9.2"
+  }
+}
