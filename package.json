@@ -5,11 +5,13 @@
   "type": "module",
   "workspaces": [
     "sdk",
-    "gateway"
+    "gateway",
+    "substrate"
   ],
   "scripts": {
-    "test": "npm test -w agenttab-portaldot-sdk && npm test -w agenttab-portaldot-gateway",
-    "typecheck": "npm run typecheck -w agenttab-portaldot-sdk && npm run typecheck -w agenttab-portaldot-gateway",
+    "test": "npm test -w agenttab-portaldot-sdk && npm test -w agenttab-portaldot-gateway && npm test -w agenttab-portaldot-substrate",
+    "typecheck": "npm run typecheck -w agenttab-portaldot-sdk && npm run typecheck -w agenttab-portaldot-gateway && npm run typecheck -w agenttab-portaldot-substrate",
+    "revive-probe": "tsx substrate/src/probe.ts",
     "dry-run": "tsx gateway/src/dry-run.ts",
     "gateway": "npm run start -w agenttab-portaldot-gateway",
     "call": "tsx gateway/src/call.ts",

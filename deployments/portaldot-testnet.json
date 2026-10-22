@@ -31,5 +31,28 @@
       "open": "0xc27ab271b49103a257046c7458805ed1c73988d464f61aa98bfe6338a13e534e",
       "settle": "0xd58678d04863861cda814284eb2879d0abcaf85ca64779cc5e69f2a670b8ac5b"
     }
+  },
+  "substrate": {
+    "specName": "portaldot-v3",
+    "specVersion": 3002,
+    "ss58Prefix": 42,
+    "revivePalletIndex": 80,
+    "reviveCallIndex": 1,
+    "autoMap": true,
+    "nativeToEthRatio": 10000,
+    "existentialDepositPlanck": "10000000000000",
+    "deployerFallbackSs58": "5Fe78D5g5NcrMU2J97UXdQEMU1DSNwgh7knaHirpD8J8th3U",
+    "assetsErc20Prefix": "0x0001",
+    "assetsErc20Formula": "assetId as 4 big-endian bytes, then 12 zero bytes, then 00010000",
+    "exampleAsset": {
+      "pallet": "Assets",
+      "id": 2,
+      "symbol": "TEST",
+      "decimals": 18,
+      "precompile": "0x0000000200000000000000000000000000010000",
+      "totalSupply": "15000000000000000000"
+    },
+    "probe": "runs/revive-probe.json",
+    "submittedExtrinsic": null
   }
 }

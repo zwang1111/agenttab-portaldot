@@ -44,6 +44,23 @@ After PR #1 merge (`688dc08`), `npm test` (22/22) and `npm run dry-run` passed. 
 
 Machine-readable: [`runs/gateway-sdk-live-20261023.json`](runs/gateway-sdk-live-20261023.json). Env mapping: root `.env` `PRIVATE_KEY` → `AGENT_PK` / `PROVIDER_PK` in gitignored `.env.local` (never committed).
 
+## Substrate `Revive.call` probe (no submitted extrinsic)
+
+`npm run revive-probe` reads the public testnet. The account it uses is the deployer's fallback id `5Fe78D5g5NcrMU2J97UXdQEMU1DSNwgh7knaHirpD8J8th3U` (`H160 || 0xEE×12`), which is public. The script calls `state_call("ReviveApi_call")`, `eth_call`, and `state_getStorage`. It does not sign.
+
+Recorded in [`runs/revive-probe.json`](runs/revive-probe.json) at block 148943, spec `portaldot-v3` 3002:
+
+| Check | Result |
+|---|---|
+| `remaining(1)` | `5000000000000000` from both `ReviveApi_call` and `eth_call` |
+| `tabs(1)` / `nextId()` | Same return data as `eth_call`. `nextId` is 3 |
+| `settle` dry-run | Revert `NotProvider` (`0x3480e2b2`). Origin is the payer, not tab 1's provider. Not a settle |
+| `Revive.call` bytes | Unsigned SCALE in the JSON (`pallet index 80`, `call index 1`). Not submitted |
+| Assets precompile | Asset id 2 → `0x0000000200000000000000000000000000010000`. Supply `15000000000000000000` matches `Assets.Asset(2)` |
+| ERC-20 `open` dry-run | Reverted, empty returndata, 183504695 gas. No ERC-20 tab was opened |
+
+`Revive.AutoMap` is true in this runtime's metadata, so `map_account` is disabled. Polkadot Hub precompile suffixes `0x01200000` / `0x02200000` / `0x03200000` have no code here. The `AssetsPrecompiles` foreign index for asset 2 is `1`, and that index is the wrong id to put in the address (supply at id 1 is 0).
+
 ## How to redeploy
 
 ```bash

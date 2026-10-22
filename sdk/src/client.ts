@@ -12,6 +12,7 @@ import {
   type WalletClient,
 } from "viem";
 import { agentTabAbi } from "./abi.js";
+import { assetsErc20Precompile } from "./assets-precompile.js";
 import { AGENT_TAB_PORTALDOT_TESTNET, NATIVE, portaldotV3Testnet } from "./chain.js";
 import { assertPlanckAligned, assertUint128, assertUint64 } from "./tpot.js";
 import type { TabState } from "./voucher.js";
@@ -73,6 +74,35 @@ export function buildOpenNativeTab(args: {
     args: [args.provider, NATIVE, args.depositWei, args.expiry],
   });
   return { to, data, value: args.depositWei, token: NATIVE };
+}
+
+/**
+ * Calldata for an ERC-20 tab whose token is the Assets precompile.
+ * `value` is zero: AgentTab pulls with `transferFrom`, so the payer must
+ * `approve` the contract first. This does not send a transaction.
+ * The HTTP 402 gateway still prices only native tPOT tabs.
+ */
+export function buildOpenErc20Tab(args: {
+  provider: Address;
+  assetId: number | bigint;
+  amount: bigint;
+  expiry: bigint;
+  agentTab?: Address;
+  /** Override only to target PoolAssets (`0x0002`). Default is the Assets pallet. */
+  prefix?: number;
+}): Calldata {
+  if (getAddress(args.provider) === zeroAddress) throw new Error("provider is zero");
+  if (args.amount <= 0n) throw new Error("amount must be positive");
+  assertUint128(args.amount, "amount");
+  assertUint64(args.expiry, "expiry");
+  const token = assetsErc20Precompile(args.assetId, args.prefix);
+  const to = tabAddress(args.agentTab);
+  const data = encodeFunctionData({
+    abi: agentTabAbi,
+    functionName: "open",
+    args: [args.provider, token, args.amount, args.expiry],
+  });
+  return { to, data, value: 0n, token };
 }
 
 export function buildTopUpNativeTab(args: {

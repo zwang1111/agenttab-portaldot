@@ -27,6 +27,8 @@ export {
 
 export { VOUCHER_TYPEHASH, agentTabAbi, agentTabDomain, voucherTypes } from "./abi.js";
 
+export { ASSETS_ERC20_PREFIX, POOL_ASSETS_ERC20_PREFIX, assetsErc20Precompile } from "./assets-precompile.js";
+
 export {
   decodeVoucherHeader,
   digestVoucher,
@@ -43,6 +45,7 @@ export {
 } from "./voucher.js";
 
 export {
+  buildOpenErc20Tab,
   buildOpenNativeTab,
   buildSettle,
   buildTopUpNativeTab,

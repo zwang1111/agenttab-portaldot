@@ -1,0 +1,22 @@
+{
+  "name": "agenttab-portaldot-substrate",
+  "version": "0.1.0",
+  "private": true,
+  "license": "MIT",
+  "type": "module",
+  "description": "Call AgentTab from a native Substrate account via pallet-revive on Portaldot V3.",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "types": "./src/index.ts",
+  "scripts": {
+    "test": "node --import tsx --test test/*.test.ts",
+    "typecheck": "tsc --noEmit",
+    "probe": "tsx src/probe.ts"
+  },
+  "dependencies": {
+    "@noble/hashes": "^1.8.0",
+    "agenttab-portaldot-sdk": "*",
+    "viem": "^2.37.5"
+  }
+}
