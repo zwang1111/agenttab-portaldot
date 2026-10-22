@@ -38,14 +38,14 @@ AgentTab 托管合约已移植到 Portaldot V3 EVM，支持原生 tPOT 开单、
 
 **English**
 
-- Pay-per-call provider gateway (HTTP 402 → EIP-712 voucher) and TypeScript agent SDK (viem, chain `420420777`, 14-decimal helpers).
+- ~~Pay-per-call provider gateway (HTTP 402 → EIP-712 voucher) and TypeScript agent SDK (viem, chain `420420777`, 14-decimal helpers).~~ **Done:** `gateway/` + `sdk/` (`npm test`, `npm run dry-run`). AgentTab rail only — no Celo x402 facilitator.
 - Substrate interop: settle via `Revive.call` from a native `5…` account; Assets-pallet token as tab currency (ERC-20 precompile or wrapped mock).
 - Web dashboard for tabs / vouchers / settlements with node-console links.
 - ≤ 3-min demo video and pitch deck for final submission.
 
 **中文**
 
-- 按次付费网关（HTTP 402 → EIP-712 voucher）与 TypeScript agent SDK（viem、chain `420420777`、14 位小数辅助）。
+- ~~按次付费网关（HTTP 402 → EIP-712 voucher）与 TypeScript agent SDK（viem、chain `420420777`、14 位小数辅助）。~~ **已完成：** `gateway/` + `sdk/`（`npm test`、`npm run dry-run`）。仅 AgentTab 通道，不接 Celo x402 facilitator。
 - Substrate 互通：从原生 `5…` 账户经 `Revive.call` 结算；Assets pallet 代币作为 tab 币种（ERC-20 预编译或封装 mock）。
 - Web 仪表盘：tabs / vouchers / settlements，并链接 node-console。
 - ≤ 3 分钟演示视频与最终提交用 pitch deck。
