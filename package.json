@@ -15,7 +15,8 @@
     "dry-run": "tsx gateway/src/dry-run.ts",
     "gateway": "npm run start -w agenttab-portaldot-gateway",
     "call": "tsx gateway/src/call.ts",
-    "open-tab": "tsx gateway/src/open-tab.ts"
+    "open-tab": "tsx gateway/src/open-tab.ts",
+    "dashboard": "python3 -m http.server 4173 --bind 127.0.0.1 --directory dashboard"
   },
   "devDependencies": {
     "@types/node": "^22.15.0",

@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>AgentTab inspector — Portaldot V3</title>
+  <meta name="description" content="Read-only AgentTab dashboard for Portaldot V3 testnet. Balances come from the public RPC. No key." />
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+<body>
+  <header>
+    <div>
+      <p class="kicker">AgentTab · Modular Cloud &amp; Middleware</p>
+      <h1>Tab inspector</h1>
+    </div>
+    <p class="stamp">
+      <strong>Read only</strong>
+      <span id="chain-meta">Portaldot V3 · chain 420420777</span>
+    </p>
+  </header>
+
+  <p class="note" id="rpc-status" role="status">This page has not read the chain yet.</p>
+
+  <main>
+    <section aria-labelledby="tabs-heading">
+      <h2 id="tabs-heading">Tabs on the deployed contract</h2>
+      <p>
+        Contract <code id="contract">0x9a096C216f79e08C2DB95d92F412697D8F1f9329</code>
+        on <code>https://test-evm-rpc-v3.portaldot.dev</code>.
+        Rows are <code>tabs(id)</code> and <code>remaining(id)</code>.
+        Nothing here is a cached balance.
+      </p>
+      <form class="toolbar" id="read-form">
+        <label>
+          Tab id
+          <input id="tab-id" name="id" inputmode="numeric" autocomplete="off" value="1" />
+        </label>
+        <button type="submit" id="read-tab">Read this id</button>
+        <button type="button" class="ghost" id="refresh">Refresh from RPC</button>
+      </form>
+      <div class="grid">
+        <div>
+          <div class="scroll">
+            <table>
+              <thead>
+                <tr>
+                  <th>Id</th>
+                  <th>Provider</th>
+                  <th>Remaining</th>
+                  <th>Expiry</th>
+                </tr>
+              </thead>
+              <tbody id="tab-list"></tbody>
+            </table>
+          </div>
+          <p class="empty" id="list-empty" hidden>No tab rows yet.</p>
+        </div>
+        <article id="tab-detail" aria-live="polite">
+          <p class="empty">Pick a tab, or type an id.</p>
+        </article>
+      </div>
+    </section>
+
+    <div class="stack">
+      <section aria-labelledby="tx-heading">
+        <h2 id="tx-heading">Open and settle transactions</h2>
+        <p>
+          The node console
+          (<a href="https://node-console.portaldot.dev" target="_blank" rel="noreferrer">node-console.portaldot.dev</a>)
+          has no per-transaction page. Open it, then Network → events, and paste a hash.
+          Hashes below that come from <code>eth_getLogs</code> were returned by the RPC just now.
+          The recorded list is the set of hashes checked into this repo. It is not a balance.
+        </p>
+        <h3>From <code>Opened</code> and <code>Settled</code> logs</h3>
+        <div class="scroll">
+          <table>
+            <thead>
+              <tr>
+                <th>Event</th>
+                <th>Tab</th>
+                <th>Block</th>
+                <th>Transaction</th>
+              </tr>
+            </thead>
+            <tbody id="log-txs"></tbody>
+          </table>
+        </div>
+        <p class="empty" id="log-empty" hidden>No logs loaded.</p>
+
+        <h3>Recorded in the repository</h3>
+        <div class="scroll">
+          <table>
+            <thead>
+              <tr>
+                <th>Step</th>
+                <th>Tab</th>
+                <th>Hash</th>
+                <th>Source</th>
+                <th>RPC object</th>
+              </tr>
+            </thead>
+            <tbody id="recorded"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <section aria-labelledby="quote-heading">
+        <h2 id="quote-heading">Local gateway <code>/quote</code> (HTTP 402)</h2>
+        <p>
+          The provider process in <code>gateway/</code> sells one call at a time.
+          An unpaid <code>GET /quote</code> is <strong>402</strong> with an AgentTab price and EIP-712 domain.
+          A paid call repeats that request with <code>X-AgentTab-Voucher</code>.
+          This page never signs and never asks for a key.
+        </p>
+        <ol class="steps">
+          <li>In the repo: <code>npm run gateway</code>. The default <code>CHAIN_MODE=memory</code> does not send a transaction. The 402 body still names chain <code>420420777</code> and the deployed contract.</li>
+          <li>Unpaid call: <code>curl -i http://127.0.0.1:8402/quote</code>. Expect status 402, header <code>X-AgentTab-Required</code>, and <code>"error": "payment_required"</code>, <code>"rail": "agenttab"</code>.</li>
+          <li>Read <code>claimed</code> for the tab (this page, or the SDK). The next voucher cumulative is <code>claimed + price.amountWei</code> from that 402 body. If <code>PRICE_WEI</code> and <code>PRICE_TPOT</code> are unset, the gateway's code default is <code>10^14</code> wei (<code>0.0001</code> tPOT). That default is not a chain balance.</li>
+          <li>Paid call, key only in the environment: <code>API_BASE=http://127.0.0.1:8402 TAB_ID=1 AGENT_PK=0x… npm run call</code>. The client sends <code>X-AgentTab-Voucher</code> as JSON (<code>tabId</code>, <code>cumulative</code>, <code>signature</code>) or the same JSON in base64url.</li>
+          <li>The gateway accepts the voucher once, then returns 402 <code>stale</code> on a replay. It calls <code>settle</code> every <code>SETTLE_EVERY</code> accepted calls (default 5) when a provider key is configured.</li>
+        </ol>
+        <form class="probe-row" id="probe-form">
+          <label>
+            Loopback gateway
+            <input id="gateway-url" name="gateway" value="http://127.0.0.1:8402/quote" spellcheck="false" />
+          </label>
+          <button type="submit" id="probe">Probe /quote</button>
+        </form>
+        <p class="note">The probe only calls localhost. From GitHub Pages that is your own machine, and only if the gateway is running there.</p>
+        <pre id="probe-out">No probe yet. The 402 body appears here only after a live response.</pre>
+      </section>
+    </div>
+  </main>
+
+  <footer>
+    Static files in <code>dashboard/</code>. No build and no secret.
+    Serve with <code>npm run dashboard</code>, or publish this folder on GitHub Pages.
+  </footer>
+  <noscript><p>This inspector needs JavaScript to call the public RPC.</p></noscript>
+  <script type="module" src="./app.js"></script>
+</body>
+</html>
