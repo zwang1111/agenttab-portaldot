@@ -32,6 +32,18 @@ Machine-readable copy: [`deployments/portaldot-testnet.json`](deployments/portal
 
 After settle, `remaining(1) == 5e15`. Expiry is far enough that refund was not required for check-in.
 
+## Gateway + SDK live demo (2026-10-23, Asia/Shanghai)
+
+After PR #1 merge (`688dc08`), `npm test` (22/22) and `npm run dry-run` passed. Live path against Portaldot V3:
+
+| Step | Tx / result | Notes |
+|---|---|---|
+| **open** tab #2 | [`0x9922d9a777df59b54013e9d944672e6cc487d6c357ce38b19cec2813a4abf886`](https://node-console.portaldot.dev) | `npm run open-tab` · deposit `0.01` tPOT · payer=provider=`0x9e2e2024c7dcA86e57608e2ceAD160081c381fDd` |
+| unpaid `GET /quote` | HTTP 402 | `CHAIN_MODE=rpc` gateway on `:8402` |
+| paid call + **settle** | [`0x2031c40d5b2edf95d8a8b36961a91eb2dd0b4d563622f74721dc5aa35283df99`](https://node-console.portaldot.dev) | `npm run call` · cumulative `1e14` wei (`0.0001` tPOT) · `SETTLE_EVERY=1` |
+
+Machine-readable: [`runs/gateway-sdk-live-20261023.json`](runs/gateway-sdk-live-20261023.json). Env mapping: root `.env` `PRIVATE_KEY` → `AGENT_PK` / `PROVIDER_PK` in gitignored `.env.local` (never committed).
+
 ## How to redeploy
 
 ```bash

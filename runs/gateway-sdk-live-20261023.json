@@ -1,0 +1,23 @@
+{
+  "when": "2026-10-23 00:58 Asia/Shanghai (UTC+8)",
+  "chainId": 420420777,
+  "rpc": "https://test-evm-rpc-v3.portaldot.dev",
+  "explorer": "https://node-console.portaldot.dev",
+  "agentTab": "0x9a096C216f79e08C2DB95d92F412697D8F1f9329",
+  "payer": "0x9e2e2024c7dcA86e57608e2ceAD160081c381fDd",
+  "provider": "0x9e2e2024c7dcA86e57608e2ceAD160081c381fDd",
+  "note": "Gateway+SDK live demo: payer==provider (same funded deployer key) so settle works without a second key. open-tab deposit 0.01 tPOT; price 0.0001 tPOT; SETTLE_EVERY=1.",
+  "tabId": 2,
+  "depositWei": "10000000000000000",
+  "priceWei": "100000000000000",
+  "openTx": "0x9922d9a777df59b54013e9d944672e6cc487d6c357ce38b19cec2813a4abf886",
+  "openStatus": "success",
+  "openBlock": "148648",
+  "settleTx": "0x2031c40d5b2edf95d8a8b36961a91eb2dd0b4d563622f74721dc5aa35283df99",
+  "settleStatus": "success",
+  "settleBlock": "148651",
+  "claimedWei": "100000000000000",
+  "npmTest": "22/22 pass (sdk 15 + gateway 7)",
+  "npmDryRun": "ok (402 → paid → replay 402)",
+  "gitHeadAtRun": "688dc08a31a5859f005ad40128ed2587afcbdfff"
+}
