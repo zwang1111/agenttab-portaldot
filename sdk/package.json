@@ -1,0 +1,19 @@
+{
+  "name": "agenttab-portaldot-sdk",
+  "version": "0.1.0",
+  "private": true,
+  "license": "MIT",
+  "type": "module",
+  "description": "TypeScript client for AgentTab payment tabs on Portaldot V3 (chain 420420777, native tPOT).",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "types": "./src/index.ts",
+  "scripts": {
+    "test": "node --import tsx --test test/*.test.ts",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "viem": "^2.37.5"
+  }
+}
