@@ -6,6 +6,8 @@ with the new cumulative amount on every call. The provider batch-settles many ca
 and the agent reclaims the unspent balance after expiry. It runs as a Solidity contract on Portaldot V3's
 EVM-compatible execution layer (pallet-revive).
 
+## Product architecture
+
 ```mermaid
 sequenceDiagram
     participant A as AI agent (payer)
@@ -26,8 +28,10 @@ sequenceDiagram
 - **Deployed on Portaldot V3 testnet** (chain `420420777`):
   - AgentTab: `0x9a096C216f79e08C2DB95d92F412697D8F1f9329`
   - Deploy tx: `0xe8a4376602a5467574dd7f2e966006da4fe41275d28a989e33f116fa57baab72`
-  - Demo: open `0xc27ab271…534e` → settle `0xd58678d0…ac5b` (native tPOT tab #1)
+  - Demo open: `0xc27ab271b49103a257046c7458805ed1c73988d464f61aa98bfe6338a13e534e`
+  - Demo settle: `0xd58678d04863861cda814284eb2879d0abcaf85ca64779cc5e69f2a670b8ac5b` (native tPOT tab #1)
 - Full addresses, hashes, and explorer notes: [`DEPLOYMENT.md`](DEPLOYMENT.md) / [`deployments/portaldot-testnet.json`](deployments/portaldot-testnet.json).
+- DoraHacks check-in copy-paste (中文 + English): [`CHECKIN.md`](CHECKIN.md).
 
 ## Network
 | | |
