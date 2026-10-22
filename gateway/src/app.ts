@@ -57,6 +57,21 @@ export function createGateway(options: GatewayOptions) {
 
   const app = new Hono();
 
+  // The static dashboard (another origin, often GitHub Pages or localhost:4173)
+  // probes GET /quote. No cookies are used, so a wildcard allow-origin is enough.
+  app.use("*", async (c, next) => {
+    if (c.req.method === "OPTIONS") {
+      c.header("Access-Control-Allow-Origin", "*");
+      c.header("Access-Control-Allow-Methods", "GET, OPTIONS");
+      c.header("Access-Control-Allow-Headers", "Content-Type, X-AgentTab-Voucher");
+      c.header("Access-Control-Max-Age", "600");
+      return c.body(null, 204);
+    }
+    await next();
+    c.header("Access-Control-Allow-Origin", "*");
+    c.header("Access-Control-Expose-Headers", "X-AgentTab-Required");
+  });
+
   app.get("/health", (c) => c.json({ ok: true, rail: "agenttab", chainId }));
 
   app.get("/config", (c) =>
