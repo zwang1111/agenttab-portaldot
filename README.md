@@ -21,11 +21,13 @@ sequenceDiagram
     A->>C: refund(tabId) after expiry
 ```
 
-## Status (2026-10-17)
+## Status (2026-10-22)
 - Contract ported and tested: `forge test` → 7 passing (ERC-20 tabs, native tabs, bad sig, stale, exceeds, refund, top-up).
-- **Live testnet dry run:** `eth_call` deploy of AgentTab against the Portaldot V3 testnet returns the full runtime code, so the
-  EVM bytecode is accepted as is (`runs/dryrun-*.log`).
-- **Not yet deployed:** the deployer is unfunded. Testnet tokens are distributed to registered participants; see `PLAN.md`.
+- **Deployed on Portaldot V3 testnet** (chain `420420777`):
+  - AgentTab: `0x9a096C216f79e08C2DB95d92F412697D8F1f9329`
+  - Deploy tx: `0xe8a4376602a5467574dd7f2e966006da4fe41275d28a989e33f116fa57baab72`
+  - Demo: open `0xc27ab271…534e` → settle `0xd58678d0…ac5b` (native tPOT tab #1)
+- Full addresses, hashes, and explorer notes: [`DEPLOYMENT.md`](DEPLOYMENT.md) / [`deployments/portaldot-testnet.json`](deployments/portaldot-testnet.json).
 
 ## Network
 | | |
@@ -34,12 +36,13 @@ sequenceDiagram
 | Substrate RPC | `wss://test-node-v3.portaldot.dev` (chain "PortaldotV3 Test", SS58 42) |
 | Token | `tPOTv3`, 14 decimals on the Substrate side |
 | Explorer | https://node-console.portaldot.dev |
+| Deployer | `0x9e2e2024c7dcA86e57608e2ceAD160081c381fDd` |
 
 ## Run
 ```bash
 forge test
-cp .env.example .env   # throwaway testnet key only
-scripts/deploy.sh      # refuses to run if unfunded
+cp .env.example .env   # throwaway testnet key only; set DEPLOYER_ADDRESS too
+scripts/deploy.sh      # refuses to run if unfunded; uses legacy + estimateGas gas-limit
 ```
 
 ## Origin and disclosure

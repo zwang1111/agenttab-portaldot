@@ -1,0 +1,19 @@
+{
+  "chainId": 420420777,
+  "rpc": "https://test-evm-rpc-v3.portaldot.dev",
+  "explorer": "https://node-console.portaldot.dev",
+  "deployer": "0x9e2e2024c7dcA86e57608e2ceAD160081c381fDd",
+  "agentTab": "0x9a096C216f79e08C2DB95d92F412697D8F1f9329",
+  "deployTx": "0xe8a4376602a5467574dd7f2e966006da4fe41275d28a989e33f116fa57baab72",
+  "provider": "0x7F220d4db849E7Ee220f9F8fdD99fc016b3F3369",
+  "fundTx": "0xc12b93e4bc199bf3e9bc53e57e4439862b5267d379b3c9310efc8aa91866f59c",
+  "openTx": "0xc27ab271b49103a257046c7458805ed1c73988d464f61aa98bfe6338a13e534e",
+  "openStatus": "1",
+  "settleTx": "0xd58678d04863861cda814284eb2879d0abcaf85ca64779cc5e69f2a670b8ac5b",
+  "settleStatus": "1",
+  "tabId": 1,
+  "depositWei": "10000000000000000",
+  "cumulativeSettledWei": "5000000000000000",
+  "expiry": 1792681392,
+  "remaining": "5000000000000000 [5e15]"
+}
