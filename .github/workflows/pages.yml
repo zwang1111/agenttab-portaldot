@@ -1,10 +1,8 @@
-# Deploys the static dashboard/ directory to GitHub Pages.
-# The site is not created by this file alone. On 2026-10-29 the Pages API
-# returned 404 and https://zwang1111.github.io/agenttab-portaldot/ returned
-# HTTP 404. An admin has to set Settings → Pages → Source → GitHub Actions.
-# Until a GET of that host returns 200, do not send judges there.
-# When Pages is still off, this workflow skips deploy and stays green.
-# Retrigger after Pages source was set to GitHub Actions.
+# Deploys the contents of dashboard/ to the GitHub Pages site root.
+# https://zwang1111.github.io/agenttab-portaldot/ returned HTTP 200 on 2026-10-29.
+# That root is the inspector. A /dashboard/ path on the host is 404 by design
+# (the artifact has no nested dashboard directory).
+# If the Pages API is not 200, this workflow skips deploy and stays green.
 
 name: pages
 

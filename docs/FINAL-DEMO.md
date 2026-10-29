@@ -56,7 +56,13 @@ That is the whole unpaid offer. Stop there unless you are on the funded machine 
 
 ## 2. Dashboard
 
-Local (same machine as the gateway if you also want the 402 probe button):
+One-click, no install. Checked **HTTP 200** on 2026-10-29:
+
+https://zwang1111.github.io/agenttab-portaldot/
+
+That host is the dashboard. [`.github/workflows/pages.yml`](../.github/workflows/pages.yml) uploads the `dashboard/` directory, so the site root is the inspector (`dashboard/index.html` in the repo). Open the URL above with nothing after the host. The path `/dashboard/` on this host is HTTP 404 by design: the published artifact has no nested `dashboard/` folder. Do not add that segment.
+
+Same files on the presenter's machine (use this if you also want the 402 probe button against a gateway on that machine):
 
 ```bash
 npm run dashboard
@@ -64,19 +70,7 @@ npm run dashboard
 
 Open http://127.0.0.1:4173
 
-One-click, no install, once this runbook is on `main`:
-
-https://htmlpreview.github.io/?https://github.com/zwang1111/agenttab-portaldot/blob/main/dashboard/index.html
-
-That is htmlpreview plus the repo-relative path `dashboard/index.html`. On 2026-10-29 the htmlpreview URL returned HTTP 200. It is not GitHub Pages.
-
-Do **not** open these. They returned HTTP 404 on 2026-10-29:
-
-- https://zwang1111.github.io/agenttab-portaldot/
-- https://zwang1111.github.io/agenttab-portaldot/dashboard/
-- https://zwang1111.github.io/agenttab-portaldot/dashboard/index.html
-
-Pages deploys from [`.github/workflows/pages.yml`](../.github/workflows/pages.yml) only after an admin sets Settings → Pages → Source → GitHub Actions. Recheck with `curl -sI` and use the github.io host only when the status is 200.
+Spare copy, also HTTP 200 on 2026-10-29, and not the Pages site: [htmlpreview of `dashboard/index.html`](https://htmlpreview.github.io/?https://github.com/zwang1111/agenttab-portaldot/blob/main/dashboard/index.html).
 
 What to click:
 
@@ -84,7 +78,7 @@ What to click:
 2. Select **tab 1**. Say: native tPOT, deposit `0.01` tPOT (`1e16` wei), claimed half, remaining `5e15` wei (`0.005` tPOT) after the check-in settle. Provider `0x7F220d4db849E7Ee220f9F8fdD99fc016b3F3369`. Expiry in the deployment record is `1792681392` (2026-10-22T15:03:12Z). On 2026-10-29 the badge is **Expired**. Remaining is still the unspent escrow.
 3. Select **tab 2**. Say: gateway + SDK live demo on 2026-10-23, deposit `0.01` tPOT, one paid call settled `0.0001` tPOT (`1e14` wei), remaining `0.0099` tPOT. Payer and provider were both the deployer `0x9e2e2024c7dcA86e57608e2ceAD160081c381fDd` so settle did not need a second key. An `eth_call` of `tabs(2)` on 2026-10-29 returned expiry `1792774691` (2026-10-23T16:58:11Z), so this badge is **Expired** too.
 4. Scroll to **Recorded in the repository** and point at the open/settle rows. Those hashes are labels from git, not a second balance.
-5. Optional, only if `npm run gateway` is running on **this** machine: press **Probe /quote**. The field must stay `http://127.0.0.1:8402/quote`. The page refuses any non-loopback URL. From htmlpreview, localhost is the judge's own computer, so skip the probe and use the `curl` from step 1.
+5. Optional, only if `npm run gateway` is running on **this** machine: press **Probe /quote**. The field must stay `http://127.0.0.1:8402/quote`. The page refuses any non-loopback URL. From the public github.io page, localhost is the viewer's own computer, so skip the probe unless the gateway is running there and use the `curl` from step 1.
 
 ## 3. Hashes to paste for judges
 
