@@ -48,7 +48,7 @@ Machine-readable: [`runs/gateway-sdk-live-20261023.json`](runs/gateway-sdk-live-
 
 `npm run revive-probe` reads the public testnet. The account it uses is the deployer's fallback id `5Fe78D5g5NcrMU2J97UXdQEMU1DSNwgh7knaHirpD8J8th3U` (`H160 || 0xEE×12`), which is public. The script calls `state_call("ReviveApi_call")`, `eth_call`, and `state_getStorage`. It does not sign.
 
-Recorded in [`runs/revive-probe.json`](runs/revive-probe.json) at block 148943, spec `portaldot-v3` 3002:
+Recorded in [`runs/revive-probe.json`](runs/revive-probe.json) at block 148951 (`blockNumber` in that file), spec `portaldot-v3` 3002:
 
 | Check | Result |
 |---|---|

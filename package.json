@@ -16,7 +16,8 @@
     "gateway": "npm run start -w agenttab-portaldot-gateway",
     "call": "tsx gateway/src/call.ts",
     "open-tab": "tsx gateway/src/open-tab.ts",
-    "dashboard": "python3 -m http.server 4173 --bind 127.0.0.1 --directory dashboard"
+    "dashboard": "python3 -m http.server 4173 --bind 127.0.0.1 --directory dashboard",
+    "build:dashboard": "node scripts/build-dashboard-browser.mjs"
   },
   "devDependencies": {
     "@types/node": "^22.15.0",

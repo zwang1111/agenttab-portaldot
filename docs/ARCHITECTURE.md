@@ -98,7 +98,7 @@ flowchart LR
 
 `substrate/` encodes both calls. `npm run revive-probe` talks to the live testnet and writes `runs/revive-probe.json`. It uses `state_call`, `eth_call`, and `state_getStorage` only. It does not sign and it does not submit.
 
-What that probe showed at block 148943 (spec `portaldot-v3` 3002):
+What that probe showed at block 148951 (`runs/revive-probe.json` `blockNumber`, spec `portaldot-v3` 3002):
 
 | Check | Result |
 |---|---|
