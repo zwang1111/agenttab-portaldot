@@ -7,7 +7,13 @@ Repo: https://github.com/zwang1111/agenttab-portaldot
 
 Timebox: about five minutes. Order: unpaid HTTP 402, then the dashboard, then paste two hashes into the node console.
 
-`docs/demo-checkin.mp4` is a static card video. Do not play it as the product demo.
+**Public final demo video (real product screen-record):** [`docs/demo-final.mp4`](demo-final.mp4) — dashboard + HTTP 402 + settle hash proof slide (~≤3 min).
+
+- Path: `docs/demo-final.mp4`
+- Raw: https://raw.githubusercontent.com/zwang1111/agenttab-portaldot/main/docs/demo-final.mp4
+- Blob: https://github.com/zwang1111/agenttab-portaldot/blob/main/docs/demo-final.mp4
+
+Week 2 [`docs/demo-checkin.mp4`](demo-checkin.mp4) remains title cards only — do not play it as the product demo.
 
 ## 0. On screen before you start
 
@@ -127,7 +133,7 @@ A signed `Revive.call` is optional and is still open. See [`STATUS.md`](../STATU
 - A new on-chain tab. Tab #1 and tab #2 are the evidence.
 - The Celo x402 facilitator. This repo does not ship it. `src/AgentTab.sol` is the MIT AgentTab port from [agenttab-celo](https://github.com/zwang1111/agenttab-celo) (2026-10-15).
 - The DoraHacks final form. It requires the entrant to be logged in at https://dorahacks.io/buidl/50150. Have that session open in another profile if the form itself is in the slot.
-- `docs/demo-checkin.mp4` as a product recording. It is static cards for the week-2 check-in.
+- Week 2 `docs/demo-checkin.mp4` as a product recording (title cards only). Use `docs/demo-final.mp4` instead.
 
 ## If the RPC or the console is down
 
