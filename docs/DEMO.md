@@ -1,7 +1,10 @@
 # Demo video — Week 2 check-in
 
+> Freeze path (gateway + SDK settle, dashboard, Substrate probe): [`FINAL-DEMO.md`](FINAL-DEMO.md) and [`../STATUS.md`](../STATUS.md). This page is the Week 2 cut only.
+
 **File:** [`demo-checkin.mp4`](demo-checkin.mp4) (≤3 min, static title-card walkthrough)  
-**Pitch deck:** [`pitch.html`](pitch.html) (open in a browser; arrow keys / swipe)
+**Pitch deck:** [`pitch.html`](pitch.html) (open in a browser; arrow keys / swipe)  
+**Pages entry:** [`index.html`](index.html)
 
 ## What the video shows
 

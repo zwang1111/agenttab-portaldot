@@ -222,7 +222,7 @@
 
   <!-- 1 -->
   <section class="slide active" data-title="Title">
-    <div class="kicker">DoraHacks · Portaldot Hacker House 2026 · Week 2</div>
+    <div class="kicker">DoraHacks · Portaldot Hacker House 2026 · BUIDL 50150 · freeze 2026-11-06</div>
     <h1>AgentTab on <span class="highlight">Portaldot V3</span></h1>
     <p class="subtitle">Pay-per-call escrow tabs for AI agents — open once, voucher every call, settle in batch on Portaldot’s EVM layer.</p>
     <div class="pill-row">
@@ -276,7 +276,7 @@
       </div>
       <div class="card">
         <h3>Interop path</h3>
-        <p>Roadmap: settle via <span class="mono">Revive.call</span> from native <span class="mono">5…</span> accounts; Assets-pallet tokens as tab currency.</p>
+        <p>Same AgentTab bytecode from a native <span class="mono">5…</span> account via <span class="mono">ReviveApi_call</span> / <span class="mono">Revive.call</span>. Probe matches <span class="mono">eth_call</span>. A submitted extrinsic is still TODO.</p>
       </div>
       <div class="card">
         <h3>Network facts</h3>
@@ -336,8 +336,8 @@
       </div>
     </div>
     <div class="card" style="margin-top:1rem;">
-      <h3>Status (2026-10-22, Asia/Shanghai)</h3>
-      <p><span class="mono">forge test</span> → 7/7 passing (ERC-20 + native tabs, bad/stale/exceeds sig, refund, top-up). Ported from author’s MIT AgentTab (Celo); Portaldot-specific: native tabs, <span class="mono">call{value:}</span> payouts, reentrancy guard.</p>
+      <h3>Status for the 2026-11-06 freeze</h3>
+      <p>Contract live (<span class="mono">forge test</span> recorded 7/7). Gateway + SDK settled tab #2 on 2026-10-23. Read-only dashboard in <span class="mono">dashboard/</span>. Substrate <span class="mono">ReviveApi_call</span> matches <span class="mono">eth_call</span> for <span class="mono">remaining(1)</span>. Judge path: <span class="mono">STATUS.md</span> · <span class="mono">docs/FINAL-DEMO.md</span>.</p>
     </div>
   </section>
 
@@ -382,30 +382,30 @@
     <div class="card" style="margin-top:1rem;">
       <h3>Reproduce locally</h3>
       <p class="mono">forge test && cp .env.example .env && scripts/deploy.sh</p>
-      <p style="margin-top:0.5rem;color:var(--muted);">Full hashes and redeploy notes: <span class="mono">DEPLOYMENT.md</span> · static replay: <span class="mono">docs/demo-checkin.mp4</span></p>
+      <p style="margin-top:0.5rem;color:var(--muted);">Gateway + SDK, 2026-10-23: tab #2 open <span class="mono">0x9922d9a7…f886</span>, settle <span class="mono">0x2031c40d…df99</span> (0.0001 tPOT). Hashes: <span class="mono">DEPLOYMENT.md</span> · script: <span class="mono">docs/FINAL-DEMO.md</span> · Week 2 replay: <span class="mono">docs/demo-checkin.mp4</span></p>
     </div>
   </section>
 
   <!-- 8 -->
-  <section class="slide" data-title="Roadmap">
-    <div class="kicker">Roadmap / outstanding</div>
-    <h2>What’s next for final submission</h2>
+  <section class="slide" data-title="Shipped">
+    <div class="kicker">Shipped · freeze 2026-11-06</div>
+    <h2>What a judge can check</h2>
     <div class="grid2">
       <div class="card">
-        <h3>Provider gateway + SDK</h3>
-        <p>HTTP 402 → EIP-712 voucher gateway. TypeScript agent SDK (viem, chain 420420777, 14-decimal helpers).</p>
-      </div>
-      <div class="card">
-        <h3>Substrate interop</h3>
-        <p>Settle via Revive.call from native 5… accounts. Assets-pallet token as tab currency (ERC-20 precompile or wrapped mock).</p>
+        <h3>Gateway + SDK settle</h3>
+        <p>HTTP 402 quote, EIP-712 voucher, on-chain settle of tab #2. <span class="mono">npm test</span> and <span class="mono">npm run dry-run</span> need no key.</p>
       </div>
       <div class="card">
         <h3>Dashboard</h3>
-        <p>Web UI for tabs / vouchers / settlements with node-console deep links.</p>
+        <p>Static inspector. <span class="mono">npm run dashboard</span> reads tabs from the public RPC. A public dashboard URL is still TODO.</p>
       </div>
       <div class="card">
-        <h3>Done for Week 2</h3>
-        <p>Contract live, open/settle proven, public repo + check-in assets (this deck + ≤3 min demo video).</p>
+        <h3>Substrate interop</h3>
+        <p><span class="mono">npm run revive-probe</span>: same <span class="mono">remaining(1)</span> via ReviveApi and eth_call. Assets precompile address for asset 2. Unsigned <span class="mono">Revive.call</span> only — extrinsic TODO.</p>
+      </div>
+      <div class="card">
+        <h3>Links still TODO</h3>
+        <p>Published GitHub Pages URL, and a hosted final video. This deck + <span class="mono">docs/demo-checkin.mp4</span> are the Week 2 assets (title cards, not a gateway recording).</p>
       </div>
     </div>
   </section>
@@ -415,11 +415,11 @@
     <div class="kicker">Ask</div>
     <h2>Continued support &amp; office hours</h2>
     <div class="ask-box">
-      <strong style="font-size:1.15rem;">We’re asking mentors / Portaldot for:</strong>
+      <strong style="font-size:1.15rem;">Where to look before 2026-11-06</strong>
       <p>
-        1) Feedback on native-token gas + <span class="mono">eth_estimateGas</span> quirks on V3 eth-rpc<br/>
-        2) Guidance on Revive.call / SS58 ↔ EVM address mapping for agent wallets<br/>
-        3) Office hours to pressure-test the HTTP 402 gateway design before final BUIDL polish
+        1) <span class="mono">STATUS.md</span> and <span class="mono">docs/FINAL-DEMO.md</span> — shipped surfaces and the five-minute path<br/>
+        2) Live gateway settle: tab #2 <span class="mono">0x2031c40d…df99</span> on chain 420420777<br/>
+        3) This deck, plus Week 2 video <span class="mono">docs/demo-checkin.mp4</span> (a hosted final cut is still TODO)
       </p>
     </div>
     <p class="subtitle" style="margin-top:0.8rem;">

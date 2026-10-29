@@ -9,6 +9,19 @@ EVM-compatible execution layer (pallet-revive).
 The provider in this repo sells calls over **HTTP 402**. The only rail in the challenge is AgentTab on
 chain `420420777`. There is no x402 facilitator and no stablecoin asset — see [Reuse disclosure](#reuse-disclosure).
 
+## Judge packet
+
+Freeze target **2026-11-06**. Current shipped vs TODO: [`STATUS.md`](STATUS.md). Five-minute path: [`docs/FINAL-DEMO.md`](docs/FINAL-DEMO.md). Static Pages entry (pitch + Week 2 video, relative links): [`docs/index.html`](docs/index.html).
+
+| Need | Where |
+|---|---|
+| Pitch deck | [`docs/pitch.html`](docs/pitch.html) · [GitHub blob](https://github.com/zwang1111/agenttab-portaldot/blob/main/docs/pitch.html) · [`docs/pitch.pdf`](docs/pitch.pdf) |
+| Week 2 video | [`docs/demo-checkin.mp4`](docs/demo-checkin.mp4) · [GitHub blob](https://github.com/zwang1111/agenttab-portaldot/blob/main/docs/demo-checkin.mp4) |
+| BUIDL | https://dorahacks.io/build/50150 |
+| Published GitHub Pages URL | **TODO.** `docs/index.html` is ready for a `main` / `/docs` source. `https://zwang1111.github.io/agenttab-portaldot/` was 404 on 2026-10-29. |
+| Hosted final demo video | **TODO.** No YouTube or Loom URL is in this repo. The mp4 above is the Week 2 title-card cut. |
+| Public dashboard | **TODO.** Local only: `npm run dashboard` → `http://127.0.0.1:4173`. |
+
 ## Product architecture
 
 ```mermaid

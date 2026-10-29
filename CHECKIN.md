@@ -1,5 +1,7 @@
 # DoraHacks check-in — copy-paste answers (AgentTab on Portaldot)
 
+> Week 2 form paste (deadline was **Oct 24 20:00 Asia/Shanghai**). The outstanding list in section 2 is that week's list. Freeze status as of the repo snapshot is [`STATUS.md`](STATUS.md); the judge path is [`docs/FINAL-DEMO.md`](docs/FINAL-DEMO.md).
+
 Use these for the Portaldot Hacker House 2026 check-in form (deadline **Oct 24 20:00 Asia/Shanghai / UTC+8**).  
 No secrets. Live deploy facts as of 2026-10-22.
 
