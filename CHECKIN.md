@@ -2,7 +2,7 @@
 
 The answers under this heading are the **Oct 24 check-in** paste. They are not the finalist status.
 
-Current snapshot (2026-10-29, Asia/Shanghai): [`STATUS.md`](STATUS.md). Judge script: [`docs/FINAL-DEMO.md`](docs/FINAL-DEMO.md). Gateway + SDK are live, ReviveApi probes are recorded, the dashboard is on `main`, and `docs/demo-checkin.mp4` plus `docs/pitch.pdf` are in the tree. Still open: a real product demo video (the mp4 is static cards), a hosted dashboard URL (github.io was HTTP 404 on 2026-10-29), the DoraHacks final form (user login), and an optional signed Substrate extrinsic.
+Current snapshot (2026-10-29, Asia/Shanghai): [`STATUS.md`](STATUS.md). Judge script: [`docs/FINAL-DEMO.md`](docs/FINAL-DEMO.md). Gateway + SDK are live, ReviveApi probes are recorded, and the dashboard is published at [https://zwang1111.github.io/agenttab-portaldot/](https://zwang1111.github.io/agenttab-portaldot/) (HTTP 200, site root; a `/dashboard/` path on that host is 404 by design). `docs/demo-checkin.mp4` is the Week 2 title-card cut, and `docs/pitch.pdf` is in the tree. Still open: a hosted final demo video of the gateway and the dashboard, and the DoraHacks final form if it is still required (user login; this repo does not submit it).
 
 Use the text below for the Portaldot Hacker House 2026 check-in form (deadline **Oct 24 20:00 Asia/Shanghai / UTC+8**).  
 No secrets. Live deploy facts in the paste itself are as of 2026-10-22.

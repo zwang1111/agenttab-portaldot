@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>AgentTab on Portaldot V3 — BUIDL 50150</title>
+<meta name="description" content="Judge packet for AgentTab on Portaldot V3. The public dashboard is the GitHub Pages site root (HTTP 200). Freeze 2026-11-06." />
+<style>
+  :root {
+    color-scheme: dark;
+    --bg: #0b1020;
+    --bg2: #121a33;
+    --card: rgba(22, 31, 58, 0.9);
+    --accent: #6ee7b7;
+    --accent2: #60a5fa;
+    --warn: #fbbf24;
+    --text: #e8eefc;
+    --muted: #9aa8c7;
+    --line: rgba(255,255,255,0.08);
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: Inter, "Segoe UI", system-ui, sans-serif;
+    color: var(--text);
+    background:
+      radial-gradient(1000px 480px at 8% -10%, rgba(96,165,250,0.18), transparent 55%),
+      radial-gradient(800px 420px at 100% 0%, rgba(110,231,183,0.12), transparent 50%),
+      linear-gradient(165deg, var(--bg), var(--bg2));
+    line-height: 1.5;
+  }
+  main { max-width: 880px; margin: 0 auto; padding: 48px 24px 80px; }
+  .kicker {
+    color: var(--accent);
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+  h1 { font-size: clamp(2rem, 5vw, 3rem); line-height: 1.12; margin: 0.35rem 0 0.6rem; }
+  h2 { font-size: 1.35rem; margin: 2rem 0 0.6rem; }
+  a { color: var(--accent2); }
+  p { color: var(--muted); }
+  .lead { font-size: 1.12rem; max-width: 62ch; }
+  .row { display: flex; flex-wrap: wrap; gap: 0.5rem; margin: 1rem 0 0.2rem; }
+  .pill {
+    border: 1px solid rgba(110,231,183,0.28);
+    border-radius: 999px;
+    padding: 0.28rem 0.7rem;
+    color: var(--accent);
+    font-size: 0.82rem;
+    font-weight: 650;
+  }
+  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 0.8rem; }
+  .card {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 1rem 1.05rem;
+  }
+  .card h3 { margin: 0 0 0.35rem; font-size: 1rem; color: var(--accent2); }
+  .card p { margin: 0; font-size: 0.95rem; }
+  table { width: 100%; border-collapse: collapse; font-size: 0.92rem; }
+  th, td { text-align: left; padding: 0.55rem 0.4rem; border-bottom: 1px solid var(--line); vertical-align: top; }
+  th { color: var(--muted); font-weight: 600; width: 34%; }
+  code, .mono { font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace; font-size: 0.84rem; word-break: break-all; }
+  .todo { color: var(--warn); font-weight: 700; }
+  .actions { display: flex; flex-wrap: wrap; gap: 0.6rem; margin-top: 0.8rem; }
+  .actions a {
+    text-decoration: none;
+    background: var(--accent);
+    color: #06281c;
+    font-weight: 750;
+    border-radius: 10px;
+    padding: 0.55rem 0.8rem;
+  }
+  .actions a.secondary { background: transparent; color: var(--text); border: 1px solid var(--line); }
+  footer { margin-top: 2.5rem; color: var(--muted); font-size: 0.88rem; }
+</style>
+</head>
+<body>
+<main>
+  <p class="kicker">DoraHacks · Portaldot Hacker House 2026 · freeze 2026-11-06</p>
+  <h1>AgentTab on Portaldot V3</h1>
+  <p class="lead">AI agents escrow native tPOT once, sign an EIP-712 voucher per API call, and the provider batch-settles on chain <code>420420777</code>. One contract, reached from EVM JSON-RPC and from pallet-revive.</p>
+  <p class="lead">AI agent 一次性托管 tPOT，每次调用签 EIP-712 voucher，服务商在 Portaldot V3 批量结算。公开仪表盘在 GitHub Pages 站点根目录，2026-10-29 检查为 HTTP 200。</p>
+  <div class="row">
+    <span class="pill">BUIDL 50150</span>
+    <span class="pill">Modular Cloud &amp; Middleware</span>
+    <span class="pill">Chain 420420777</span>
+  </div>
+
+  <div class="actions">
+    <a href="https://zwang1111.github.io/agenttab-portaldot/">Open the dashboard</a>
+    <a class="secondary" href="./pitch.html">Pitch deck</a>
+    <a class="secondary" href="./demo-checkin.mp4">Week 2 video</a>
+    <a class="secondary" href="./FINAL-DEMO.md">Judge script</a>
+    <a class="secondary" href="https://github.com/zwang1111/agenttab-portaldot/blob/main/STATUS.md">STATUS.md</a>
+  </div>
+
+  <h2>Shipped</h2>
+  <div class="grid">
+    <article class="card">
+      <h3>Gateway + SDK settle</h3>
+      <p>Tab #2 is on testnet. Open <span class="mono">0x9922d9a7…f886</span>, then settle <span class="mono">0x2031c40d…df99</span> for <span class="mono">0.0001</span> tPOT after an HTTP 402 quote. Local check with no key: <span class="mono">npm test</span> and <span class="mono">npm run dry-run</span>.</p>
+    </article>
+    <article class="card">
+      <h3>Dashboard</h3>
+      <p>Live at <a href="https://zwang1111.github.io/agenttab-portaldot/">zwang1111.github.io/agenttab-portaldot/</a> (HTTP 200 on 2026-10-29). Pages publishes <span class="mono">dashboard/</span> at the <strong>site root</strong>. The same files run locally with <span class="mono">npm run dashboard</span> on <span class="mono">http://127.0.0.1:4173</span>. No key.</p>
+    </article>
+    <article class="card">
+      <h3>Substrate interop</h3>
+      <p><span class="mono">ReviveApi_call</span> and <span class="mono">eth_call</span> both return <span class="mono">remaining(1) == 5e15</span> at block 148951. Unsigned <span class="mono">Revive.call</span> bytes are recorded. Nothing was submitted.</p>
+    </article>
+  </div>
+
+  <h2>Look here</h2>
+  <table>
+    <tr><th>Dashboard</th><td><a href="https://zwang1111.github.io/agenttab-portaldot/">https://zwang1111.github.io/agenttab-portaldot/</a> — HTTP 200, inspector at the site root. A <span class="mono">/dashboard/</span> path on that host is 404 by design (the artifact has no nested folder). This <span class="mono">docs/index.html</span> file is the repo packet; Pages does not serve it.</td></tr>
+    <tr><th>Contract</th><td class="mono">0x9a096C216f79e08C2DB95d92F412697D8F1f9329</td></tr>
+    <tr><th>Deploy</th><td class="mono">0xe8a4376602a5467574dd7f2e966006da4fe41275d28a989e33f116fa57baab72</td></tr>
+    <tr><th>Tab #1 settle</th><td class="mono">0xd58678d04863861cda814284eb2879d0abcaf85ca64779cc5e69f2a670b8ac5b</td></tr>
+    <tr><th>Tab #2 gateway settle</th><td class="mono">0x2031c40d5b2edf95d8a8b36961a91eb2dd0b4d563622f74721dc5aa35283df99</td></tr>
+    <tr><th>Node console</th><td><a href="https://node-console.portaldot.dev">node-console.portaldot.dev</a> — Network → events, then paste a hash</td></tr>
+    <tr><th>Repo</th><td><a href="https://github.com/zwang1111/agenttab-portaldot">github.com/zwang1111/agenttab-portaldot</a></td></tr>
+    <tr><th>BUIDL</th><td><a href="https://dorahacks.io/buidl/50150">dorahacks.io/buidl/50150</a></td></tr>
+    <tr><th>Pitch</th><td><a href="./pitch.html">pitch.html</a> · <a href="./pitch.pdf">pitch.pdf</a> · <a href="https://github.com/zwang1111/agenttab-portaldot/blob/main/docs/pitch.html">GitHub blob</a></td></tr>
+    <tr><th>Week 2 video</th><td><a href="./demo-checkin.mp4">demo-checkin.mp4</a> · <a href="https://github.com/zwang1111/agenttab-portaldot/blob/main/docs/demo-checkin.mp4">GitHub blob</a>. Title cards for the contract demo, not the gateway or the dashboard.</td></tr>
+  </table>
+
+  <h2>TODO</h2>
+  <div class="grid">
+    <article class="card">
+      <h3><span class="todo">TODO</span> Hosted final video</h3>
+      <p>No YouTube or Loom URL is in the repo. What is still missing is a hosted recording of the gateway 402 and the dashboard. <span class="mono">demo-checkin.mp4</span> is the Week 2 title-card cut.</p>
+    </article>
+    <article class="card">
+      <h3><span class="todo">TODO</span> DoraHacks final form</h3>
+      <p>Only if the entrant still has to file it. The form is user-login at <a href="https://dorahacks.io/buidl/50150">BUIDL 50150</a>. This repository does not submit it.</p>
+    </article>
+  </div>
+
+  <footer>
+    <p>Hashes and the 2026-10-23 gateway log: <a href="https://github.com/zwang1111/agenttab-portaldot/blob/main/DEPLOYMENT.md">DEPLOYMENT.md</a> · <a href="https://github.com/zwang1111/agenttab-portaldot/blob/main/runs/gateway-sdk-live-20261023.json">runs/gateway-sdk-live-20261023.json</a>. Five-minute path: <a href="./FINAL-DEMO.md">FINAL-DEMO.md</a>.</p>
+    <p>No keys on this page. Local gateway and the dashboard probe stay on loopback.</p>
+  </footer>
+</main>
+</body>
+</html>

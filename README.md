@@ -13,19 +13,13 @@ chain `420420777`. There is no x402 facilitator and no stablecoin asset — see 
 
 The inspector reads the deployed contract from the public RPC. It does not ask for a key.
 
-**One-click (HTTP 200 on 2026-10-29):** [AgentTab inspector](https://htmlpreview.github.io/?https://github.com/zwang1111/agenttab-portaldot/blob/main/dashboard/index.html)
+**One-click (HTTP 200 on 2026-10-29):** [AgentTab inspector](https://zwang1111.github.io/agenttab-portaldot/)
 
-That link is htmlpreview in front of the repo path `dashboard/index.html` on `main`. The page script is classic `dashboard/browser.js`, which is what that previewer can run. Checked 2026-10-29: the URL returned HTTP 200, and the same previewer pointed at the commit that adds `browser.js` read tab #1 and tab #2 from the public RPC.
+That URL is the dashboard at the GitHub Pages site root. [`.github/workflows/pages.yml`](.github/workflows/pages.yml) uploads the `dashboard/` directory, so the host serves `dashboard/index.html` with nothing after the project name. The path `/dashboard/` on that host is HTTP 404 by design (the artifact is the folder contents, not a nested directory). Do not append it.
 
-**GitHub Pages is not a demo link yet.** These returned **HTTP 404** on 2026-10-29, and the token cannot enable the site (`POST /pages` → 403):
+Same page on the presenter's machine: `npm run dashboard` → http://127.0.0.1:4173
 
-- https://zwang1111.github.io/agenttab-portaldot/
-- https://zwang1111.github.io/agenttab-portaldot/dashboard/
-- https://zwang1111.github.io/agenttab-portaldot/dashboard/index.html
-
-[`.github/workflows/pages.yml`](.github/workflows/pages.yml) publishes `dashboard/` after an admin sets **Settings → Pages → Source → GitHub Actions** and a later GET returns 200. Until then, do not send judges to github.io.
-
-**On the presenter's machine:** `npm run dashboard` → http://127.0.0.1:4173
+A spare htmlpreview of `dashboard/index.html` also returned HTTP 200 on 2026-10-29: [htmlpreview](https://htmlpreview.github.io/?https://github.com/zwang1111/agenttab-portaldot/blob/main/dashboard/index.html). It is not the Pages site. The script there is classic `dashboard/browser.js`.
 
 Judge script, including which hashes to paste: [`docs/FINAL-DEMO.md`](docs/FINAL-DEMO.md). Snapshot: [`STATUS.md`](STATUS.md).
 
@@ -82,10 +76,8 @@ Snapshot and the freeze plan: [`STATUS.md`](STATUS.md). BUIDL: https://dorahacks
 
 No bulk core commits after **2026-11-05 12:00 Asia/Shanghai**. Prefer docs and config over new product surface. Still open:
 
-- A **real product demo video**. The check-in file is static cards.
-- A **hosted dashboard URL**. GitHub Pages is the intended host and is not enabled; github.io was HTTP 404 on 2026-10-29. Interim one-click link is the htmlpreview URL above.
-- The **DoraHacks final form**, which is user-login at https://dorahacks.io/buidl/50150. This repository cannot submit it.
-- Optional: a **signed** Substrate `Revive.call` extrinsic. The unsigned probe is already recorded.
+- A **hosted final demo video** of the gateway 402 and the dashboard. [`docs/demo-checkin.mp4`](docs/demo-checkin.mp4) is the Week 2 title-card cut, not that recording.
+- The **DoraHacks final form**, if it is still required. It is user-login at https://dorahacks.io/buidl/50150. This repository does not submit it.
 
 How to present what is already on-chain: [`docs/FINAL-DEMO.md`](docs/FINAL-DEMO.md).
 
@@ -133,7 +125,7 @@ npm run dashboard
 
 `dashboard/index.html` loads `dashboard/browser.js`, a classic script generated from `chain.js` and `app.js` (`npm run build:dashboard`). There is no Vite build and no secret. `chain.js` stays an ES module so `npm test` can import it. The classic bundle is what htmlpreview can execute: that previewer skips `type="module"`, and `raw.githubusercontent.com` serves `.js` as `text/plain`.
 
-GitHub Pages, when an admin enables source **GitHub Actions**, serves this same `dashboard/` directory via [`.github/workflows/pages.yml`](.github/workflows/pages.yml). The workflow does not deploy while the Pages API is 404, so a missing site does not fail CI. `npm run gateway` sends `Access-Control-Allow-Origin: *` on `GET /quote`, which is what lets the page read a loopback gateway.
+GitHub Pages serves this same `dashboard/` directory at the site root via [`.github/workflows/pages.yml`](.github/workflows/pages.yml). On 2026-10-29, [https://zwang1111.github.io/agenttab-portaldot/](https://zwang1111.github.io/agenttab-portaldot/) returned HTTP 200. The workflow still skips deploy when the Pages API is not 200, so a missing site does not fail CI. `npm run gateway` sends `Access-Control-Allow-Origin: *` on `GET /quote`, which is what lets the page read a loopback gateway.
 
 ## Run against Portaldot V3 testnet
 
