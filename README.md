@@ -9,6 +9,26 @@ EVM-compatible execution layer (pallet-revive).
 The provider in this repo sells calls over **HTTP 402**. The only rail in the challenge is AgentTab on
 chain `420420777`. There is no x402 facilitator and no stablecoin asset — see [Reuse disclosure](#reuse-disclosure).
 
+## Live demo
+
+The inspector reads the deployed contract from the public RPC. It does not ask for a key.
+
+**One-click (HTTP 200 on 2026-10-29):** [AgentTab inspector](https://htmlpreview.github.io/?https://github.com/zwang1111/agenttab-portaldot/blob/main/dashboard/index.html)
+
+That link is htmlpreview in front of the repo path `dashboard/index.html` on `main`. The page script is classic `dashboard/browser.js`, which is what that previewer can run. Checked 2026-10-29: the URL returned HTTP 200, and the same previewer pointed at the commit that adds `browser.js` read tab #1 and tab #2 from the public RPC.
+
+**GitHub Pages is not a demo link yet.** These returned **HTTP 404** on 2026-10-29, and the token cannot enable the site (`POST /pages` → 403):
+
+- https://zwang1111.github.io/agenttab-portaldot/
+- https://zwang1111.github.io/agenttab-portaldot/dashboard/
+- https://zwang1111.github.io/agenttab-portaldot/dashboard/index.html
+
+[`.github/workflows/pages.yml`](.github/workflows/pages.yml) publishes `dashboard/` after an admin sets **Settings → Pages → Source → GitHub Actions** and a later GET returns 200. Until then, do not send judges to github.io.
+
+**On the presenter's machine:** `npm run dashboard` → http://127.0.0.1:4173
+
+Judge script, including which hashes to paste: [`docs/FINAL-DEMO.md`](docs/FINAL-DEMO.md). Snapshot: [`STATUS.md`](STATUS.md).
+
 ## Product architecture
 
 ```mermaid
@@ -41,18 +61,33 @@ flowchart LR
   TAB --> PRE["optional Assets ERC-20\nprefix 0x0001"]
 ```
 
-## Status (2026-10-22)
+## Status (2026-10-29, Asia/Shanghai)
+
+Snapshot and the freeze plan: [`STATUS.md`](STATUS.md). BUIDL: https://dorahacks.io/buidl/50150
+
 - Contract ported and tested: `forge test` → 7 passing (ERC-20 tabs, native tabs, bad sig, stale, exceeds, refund, top-up).
 - **Deployed on Portaldot V3 testnet** (chain `420420777`):
   - AgentTab: `0x9a096C216f79e08C2DB95d92F412697D8F1f9329`
   - Deploy tx: `0xe8a4376602a5467574dd7f2e966006da4fe41275d28a989e33f116fa57baab72`
   - Demo open: `0xc27ab271b49103a257046c7458805ed1c73988d464f61aa98bfe6338a13e534e`
   - Demo settle: `0xd58678d04863861cda814284eb2879d0abcaf85ca64779cc5e69f2a670b8ac5b` (native tPOT tab #1)
-- **Provider gateway + TypeScript SDK** (`gateway/`, `sdk/`): unpaid `GET /quote` returns 402; a signed voucher is verified locally. `npm test` and `npm run dry-run` need no RPC and no key. **Live testnet demo 2026-10-23:** open tab #2 `0x9922d9a7…`, settle `0x2031c40d…` (see `DEPLOYMENT.md`).
-- **Substrate path** (`substrate/`): `ReviveApi_call` from the deployer's public fallback account `5Fe78…` reads `remaining(1) == 5e15`, matching `eth_call`. A `settle` dry-run reverts `NotProvider`. Unsigned `Revive.call` bytes are in `runs/revive-probe.json`. No Substrate extrinsic was submitted.
-- **Dashboard** ([`dashboard/`](dashboard/)): static tab inspector. `npm run dashboard` serves it with no key. Remaining, provider, and expiry come from the public RPC.
+- **Gateway + SDK are live** (`gateway/`, `sdk/`): unpaid `GET /quote` returns 402; a signed voucher is verified locally. `npm test` and `npm run dry-run` need no RPC and no key. **Testnet demo 2026-10-23:** open tab #2 `0x9922d9a777df59b54013e9d944672e6cc487d6c357ce38b19cec2813a4abf886`, settle `0x2031c40d5b2edf95d8a8b36961a91eb2dd0b4d563622f74721dc5aa35283df99` ([`DEPLOYMENT.md`](DEPLOYMENT.md)).
+- **Substrate ReviveApi probes** (`substrate/`): `ReviveApi_call` from the deployer's public fallback account `5Fe78…` reads `remaining(1) == 5e15`, matching `eth_call`, at block 148951 in [`runs/revive-probe.json`](runs/revive-probe.json). A `settle` dry-run reverts `NotProvider`. Unsigned `Revive.call` bytes are in that file. No signed Substrate extrinsic was submitted.
+- **Dashboard is on `main`** ([`dashboard/`](dashboard/)): static tab inspector. `npm run dashboard` serves it with no key. Remaining, provider, and expiry come from the public RPC.
+- **Check-in assets in tree:** [`docs/demo-checkin.mp4`](docs/demo-checkin.mp4) (static cards, not a product recording) and [`docs/pitch.pdf`](docs/pitch.pdf) / [`docs/pitch.html`](docs/pitch.html).
 - Full addresses, hashes, and explorer notes: [`DEPLOYMENT.md`](DEPLOYMENT.md) / [`deployments/portaldot-testnet.json`](deployments/portaldot-testnet.json).
-- DoraHacks check-in copy-paste (中文 + English): [`CHECKIN.md`](CHECKIN.md).
+- DoraHacks check-in paste (historical, Oct 24): [`CHECKIN.md`](CHECKIN.md).
+
+## Plan (freeze 2026-11-06 12:00 Asia/Shanghai)
+
+No bulk core commits after **2026-11-05 12:00 Asia/Shanghai**. Prefer docs and config over new product surface. Still open:
+
+- A **real product demo video**. The check-in file is static cards.
+- A **hosted dashboard URL**. GitHub Pages is the intended host and is not enabled; github.io was HTTP 404 on 2026-10-29. Interim one-click link is the htmlpreview URL above.
+- The **DoraHacks final form**, which is user-login at https://dorahacks.io/buidl/50150. This repository cannot submit it.
+- Optional: a **signed** Substrate `Revive.call` extrinsic. The unsigned probe is already recorded.
+
+How to present what is already on-chain: [`docs/FINAL-DEMO.md`](docs/FINAL-DEMO.md).
 
 ## Network
 | | |
@@ -91,11 +126,14 @@ Unpaid response (truncated):
 [`dashboard/`](dashboard/) is a static inspector. It calls `tabs`, `remaining`, `nextId`, and `Opened` / `Settled` logs on the public EVM RPC from the browser. If the RPC is quiet, the page stays empty instead of filling in a balance. Open and settle hashes link to the [node console](https://node-console.portaldot.dev) (paste the hash under Network → events; that site has no per-transaction route). The same page shows the local `GET /quote` 402 flow and can probe `http://127.0.0.1:8402/quote` when the gateway is running.
 
 ```bash
+npm run build:dashboard   # only after editing dashboard/chain.js or dashboard/app.js
 npm run dashboard
 # http://127.0.0.1:4173
 ```
 
-The folder has no build step and no secret, so it can be published as GitHub Pages (serve the `dashboard/` directory) or opened from that local command. `npm run gateway` sends `Access-Control-Allow-Origin: *` on `GET /quote`, which is what lets the page read a loopback gateway.
+`dashboard/index.html` loads `dashboard/browser.js`, a classic script generated from `chain.js` and `app.js` (`npm run build:dashboard`). There is no Vite build and no secret. `chain.js` stays an ES module so `npm test` can import it. The classic bundle is what htmlpreview can execute: that previewer skips `type="module"`, and `raw.githubusercontent.com` serves `.js` as `text/plain`.
+
+GitHub Pages, when an admin enables source **GitHub Actions**, serves this same `dashboard/` directory via [`.github/workflows/pages.yml`](.github/workflows/pages.yml). The workflow does not deploy while the Pages API is 404, so a missing site does not fail CI. `npm run gateway` sends `Access-Control-Allow-Origin: *` on `GET /quote`, which is what lets the page read a loopback gateway.
 
 ## Run against Portaldot V3 testnet
 

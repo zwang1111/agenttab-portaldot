@@ -1,7 +1,9 @@
 # Demo video — Week 2 check-in
 
+The week-2 file below is **static title cards**, not a recording of the gateway or the dashboard. For the finalist slot, follow [`FINAL-DEMO.md`](FINAL-DEMO.md) (HTTP 402, then the inspector, then the hashes). Current snapshot: [`../STATUS.md`](../STATUS.md).
+
 **File:** [`demo-checkin.mp4`](demo-checkin.mp4) (≤3 min, static title-card walkthrough)  
-**Pitch deck:** [`pitch.html`](pitch.html) (open in a browser; arrow keys / swipe)
+**Pitch deck:** [`pitch.html`](pitch.html) (open in a browser; arrow keys / swipe) · [`pitch.pdf`](pitch.pdf)
 
 ## What the video shows
 
@@ -20,7 +22,7 @@ A ~90s on-screen walkthrough for DoraHacks Portaldot Hacker House Week 2 — no 
 | Item | Value |
 |---|---|
 | Repo | https://github.com/zwang1111/agenttab-portaldot |
-| BUIDL | https://dorahacks.io/build/50150 |
+| BUIDL | https://dorahacks.io/buidl/50150 |
 | AgentTab | `0x9a096C216f79e08C2DB95d92F412697D8F1f9329` |
 | Deploy tx | `0xe8a4376602a5467574dd7f2e966006da4fe41275d28a989e33f116fa57baab72` |
 | Open tx | `0xc27ab271b49103a257046c7458805ed1c73988d464f61aa98bfe6338a13e534e` |

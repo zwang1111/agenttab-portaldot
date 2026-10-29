@@ -1,7 +1,11 @@
 # DoraHacks check-in — copy-paste answers (AgentTab on Portaldot)
 
-Use these for the Portaldot Hacker House 2026 check-in form (deadline **Oct 24 20:00 Asia/Shanghai / UTC+8**).  
-No secrets. Live deploy facts as of 2026-10-22.
+The answers under this heading are the **Oct 24 check-in** paste. They are not the finalist status.
+
+Current snapshot (2026-10-29, Asia/Shanghai): [`STATUS.md`](STATUS.md). Judge script: [`docs/FINAL-DEMO.md`](docs/FINAL-DEMO.md). Gateway + SDK are live, ReviveApi probes are recorded, the dashboard is on `main`, and `docs/demo-checkin.mp4` plus `docs/pitch.pdf` are in the tree. Still open: a real product demo video (the mp4 is static cards), a hosted dashboard URL (github.io was HTTP 404 on 2026-10-29), the DoraHacks final form (user login), and an optional signed Substrate extrinsic.
+
+Use the text below for the Portaldot Hacker House 2026 check-in form (deadline **Oct 24 20:00 Asia/Shanghai / UTC+8**).  
+No secrets. Live deploy facts in the paste itself are as of 2026-10-22.
 
 **Project / track:** AgentTab on Portaldot — Modular Cloud & Middleware  
 **Repo:** https://github.com/zwang1111/agenttab-portaldot (`main`)

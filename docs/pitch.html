@@ -206,13 +206,18 @@
   .highlight { color: var(--accent); }
   @media print {
     html, body { overflow: visible; height: auto; background: #fff; color: #111; }
+    .deck { height: auto; }
     .slide {
       display: flex !important;
+      height: auto;
       page-break-after: always;
       min-height: 100vh;
       background: #0b1020;
       color: #e8eefc;
+      animation: none !important;
+      opacity: 1 !important;
     }
+    .slide:last-child { page-break-after: auto; }
     .nav, .dots { display: none; }
   }
 </style>
@@ -222,18 +227,18 @@
 
   <!-- 1 -->
   <section class="slide active" data-title="Title">
-    <div class="kicker">DoraHacks · Portaldot Hacker House 2026 · Week 2</div>
+    <div class="kicker">DoraHacks · Portaldot Hacker House 2026 · Finalist</div>
     <h1>AgentTab on <span class="highlight">Portaldot V3</span></h1>
-    <p class="subtitle">Pay-per-call escrow tabs for AI agents — open once, voucher every call, settle in batch on Portaldot’s EVM layer.</p>
+    <p class="subtitle">Pay-per-call escrow tabs for AI agents — open once, voucher every call, settle in batch. The same AgentTab is reached from the EVM RPC and from Substrate Revive.</p>
     <div class="pill-row">
       <span class="pill">Track: Modular Cloud & Middleware</span>
       <span class="pill">Chain 420420777</span>
       <span class="pill">BUIDL #50150</span>
-      <span class="pill">Live on testnet</span>
+      <span class="pill">Gateway 402 live</span>
     </div>
     <p class="subtitle" style="margin-top:0.8rem;font-size:0.95rem;">
       Repo: <a href="https://github.com/zwang1111/agenttab-portaldot">github.com/zwang1111/agenttab-portaldot</a>
-      · BUIDL: <a href="https://dorahacks.io/build/50150">dorahacks.io/build/50150</a>
+      · BUIDL: <a href="https://dorahacks.io/buidl/50150">dorahacks.io/buidl/50150</a>
     </p>
   </section>
 
@@ -275,8 +280,8 @@
         <p>AgentTab escrows native <strong style="color:var(--text)">tPOTv3</strong> (14 decimals on Substrate) or any ERC-20. Middleware for agent payments fits the Modular Cloud track.</p>
       </div>
       <div class="card">
-        <h3>Interop path</h3>
-        <p>Roadmap: settle via <span class="mono">Revive.call</span> from native <span class="mono">5…</span> accounts; Assets-pallet tokens as tab currency.</p>
+        <h3>Substrate path, same contract</h3>
+        <p><span class="mono">ReviveApi_call</span> from the deployer fallback account matches <span class="mono">eth_call</span> for <span class="mono">remaining(1)</span>. Unsigned <span class="mono">Revive.call</span> bytes are recorded. No signed extrinsic yet.</p>
       </div>
       <div class="card">
         <h3>Network facts</h3>
@@ -299,7 +304,7 @@
       </div>
       <div class="card">
         <h3>voucher</h3>
-        <p>Each call: agent signs EIP-712 <span class="mono">(tabId, cumulative)</span>. Provider returns HTTP 402 if missing/invalid.</p>
+        <p>Each call: agent signs EIP-712 <span class="mono">(tabId, cumulative)</span>. The live gateway returns HTTP 402 when the voucher is missing. Tab #2 was opened and settled on testnet.</p>
       </div>
       <div class="card">
         <h3>settle</h3>
@@ -336,8 +341,8 @@
       </div>
     </div>
     <div class="card" style="margin-top:1rem;">
-      <h3>Status (2026-10-22, Asia/Shanghai)</h3>
-      <p><span class="mono">forge test</span> → 7/7 passing (ERC-20 + native tabs, bad/stale/exceeds sig, refund, top-up). Ported from author’s MIT AgentTab (Celo); Portaldot-specific: native tabs, <span class="mono">call{value:}</span> payouts, reentrancy guard.</p>
+      <h3>Status (2026-10-29, Asia/Shanghai)</h3>
+      <p>Gateway + SDK live (tab #2 settle). Dashboard reads the public RPC. Substrate <span class="mono">ReviveApi</span> matches <span class="mono">eth_call</span>. Reuse: author’s MIT AgentTab (Celo, 2026-10-15) — this repo does not ship that x402 facilitator. <span class="mono">forge test</span> 7/7. Native tabs, <span class="mono">call{value:}</span> payouts, reentrancy guard.</p>
     </div>
   </section>
 
@@ -353,7 +358,7 @@
       <tr><th>Deployer</th><td class="mono">0x9e2e2024c7dcA86e57608e2ceAD160081c381fDd</td></tr>
       <tr><th>Explorer</th><td><a href="https://node-console.portaldot.dev">node-console.portaldot.dev</a> · see also <span class="mono">DEPLOYMENT.md</span></td></tr>
     </table>
-    <p class="subtitle" style="font-size:0.95rem;margin-top:0.6rem;">Native tPOT tab #1: deposit 1e16 wei → settle cumulative 5e15 wei via EIP-712 → remaining 5e15.</p>
+    <p class="subtitle" style="font-size:0.95rem;margin-top:0.6rem;">Tab #1: deposit 1e16 wei, settle 5e15. Gateway tab #2 open 0x9922d9a7… / settle 0x2031c40d…. Full hashes in DEPLOYMENT.md.</p>
   </section>
 
   <!-- 7 -->
@@ -381,31 +386,31 @@
     </div>
     <div class="card" style="margin-top:1rem;">
       <h3>Reproduce locally</h3>
-      <p class="mono">forge test && cp .env.example .env && scripts/deploy.sh</p>
-      <p style="margin-top:0.5rem;color:var(--muted);">Full hashes and redeploy notes: <span class="mono">DEPLOYMENT.md</span> · static replay: <span class="mono">docs/demo-checkin.mp4</span></p>
+      <p class="mono">npm run dry-run &nbsp;·&nbsp; npm run dashboard</p>
+      <p style="margin-top:0.5rem;color:var(--muted);">402 needs no key. Dashboard reads the RPC. Hashes: <span class="mono">DEPLOYMENT.md</span>. Runbook: <span class="mono">docs/FINAL-DEMO.md</span>. <span class="mono">demo-checkin.mp4</span> is static cards, not this demo.</p>
     </div>
   </section>
 
   <!-- 8 -->
   <section class="slide" data-title="Roadmap">
-    <div class="kicker">Roadmap / outstanding</div>
-    <h2>What’s next for final submission</h2>
+    <div class="kicker">Through the 2026-11-06 freeze</div>
+    <h2>Done, and what is still open</h2>
     <div class="grid2">
       <div class="card">
-        <h3>Provider gateway + SDK</h3>
-        <p>HTTP 402 → EIP-712 voucher gateway. TypeScript agent SDK (viem, chain 420420777, 14-decimal helpers).</p>
+        <h3>Gateway + SDK — live</h3>
+        <p>Unpaid <span class="mono">GET /quote</span> is HTTP 402. Tab #2 open and settle are on testnet. SDK speaks chain 420420777 and the 14/18 decimal split.</p>
       </div>
       <div class="card">
-        <h3>Substrate interop</h3>
-        <p>Settle via Revive.call from native 5… accounts. Assets-pallet token as tab currency (ERC-20 precompile or wrapped mock).</p>
+        <h3>Substrate — probed</h3>
+        <p><span class="mono">ReviveApi_call</span> matches <span class="mono">eth_call</span>. A signed <span class="mono">Revive.call</span> extrinsic is still optional, not submitted.</p>
       </div>
       <div class="card">
-        <h3>Dashboard</h3>
-        <p>Web UI for tabs / vouchers / settlements with node-console deep links.</p>
+        <h3>Dashboard — on main</h3>
+        <p>Static inspector reads the public RPC. github.io was HTTP 404 on 2026-10-29; Pages is not enabled yet. Local: <span class="mono">npm run dashboard</span>.</p>
       </div>
       <div class="card">
-        <h3>Done for Week 2</h3>
-        <p>Contract live, open/settle proven, public repo + check-in assets (this deck + ≤3 min demo video).</p>
+        <h3>Still open</h3>
+        <p>A real product demo video (check-in mp4 is static cards). DoraHacks final form is user-login. Freeze 2026-11-06 12:00 Asia/Shanghai.</p>
       </div>
     </div>
   </section>
@@ -413,19 +418,19 @@
   <!-- 9 -->
   <section class="slide" data-title="Ask">
     <div class="kicker">Ask</div>
-    <h2>Continued support &amp; office hours</h2>
+    <h2>What finalists still need</h2>
     <div class="ask-box">
-      <strong style="font-size:1.15rem;">We’re asking mentors / Portaldot for:</strong>
+      <strong style="font-size:1.15rem;">Before 2026-11-06 12:00 Asia/Shanghai:</strong>
       <p>
-        1) Feedback on native-token gas + <span class="mono">eth_estimateGas</span> quirks on V3 eth-rpc<br/>
-        2) Guidance on Revive.call / SS58 ↔ EVM address mapping for agent wallets<br/>
-        3) Office hours to pressure-test the HTTP 402 gateway design before final BUIDL polish
+        1) A hosted dashboard URL — Pages is configured in-repo, github.io was still 404<br/>
+        2) Optional review of a signed <span class="mono">Revive.call</span> (dry-run already matches)<br/>
+        3) The DoraHacks final form is user-login — the entrant submits it, not CI
       </p>
     </div>
     <p class="subtitle" style="margin-top:0.8rem;">
-      Public repo · live contract · demo txs already on-chain.<br/>
+      Gateway settle and tab #1 are already on-chain. Reuse: MIT AgentTab, Celo base, no x402 rail here.<br/>
       <a href="https://github.com/zwang1111/agenttab-portaldot">github.com/zwang1111/agenttab-portaldot</a>
-      · <a href="https://dorahacks.io/build/50150">BUIDL 50150</a>
+      · <a href="https://dorahacks.io/buidl/50150">BUIDL 50150</a>
     </p>
     <div class="pill-row">
       <span class="pill">Thank you — AgentTab × Portaldot</span>
