@@ -4,6 +4,7 @@
 # HTTP 404. An admin has to set Settings → Pages → Source → GitHub Actions.
 # Until a GET of that host returns 200, do not send judges there.
 # When Pages is still off, this workflow skips deploy and stays green.
+# Retrigger after Pages source was set to GitHub Actions.
 
 name: pages
 
