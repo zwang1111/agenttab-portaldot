@@ -27,7 +27,7 @@ Hashes are copied from [`DEPLOYMENT.md`](DEPLOYMENT.md) and [`deployments/portal
 
 | URL | HTTP on 2026-10-29 | Use for judges? |
 |---|---|---|
-| [htmlpreview of `dashboard/index.html`](https://htmlpreview.github.io/?https://github.com/zwang1111/agenttab-portaldot/blob/main/dashboard/index.html) | **200** (preview shell) | Yes, after this refresh is on `main`. Relative path: `dashboard/index.html`. The page loads classic `dashboard/browser.js` so the previewer can run it. `type="module"` does not run there, because raw GitHub serves `.js` as `text/plain`. |
+| [htmlpreview of `dashboard/index.html`](https://htmlpreview.github.io/?https://github.com/zwang1111/agenttab-portaldot/blob/main/dashboard/index.html) | **200** | Yes, once this refresh is on `main`. Relative path: `dashboard/index.html`. The page loads classic `dashboard/browser.js` (`type="module"` does not run here, because raw GitHub serves `.js` as `text/plain`). On 2026-10-29 the same previewer, pointed at the branch that adds `browser.js`, rendered tab #1 and tab #2 from the public RPC. |
 | `https://zwang1111.github.io/agenttab-portaldot/` | **404** | No. |
 | `https://zwang1111.github.io/agenttab-portaldot/dashboard/` | **404** | No. |
 | `https://zwang1111.github.io/agenttab-portaldot/dashboard/index.html` | **404** | No. |

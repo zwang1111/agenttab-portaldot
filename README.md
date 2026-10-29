@@ -15,7 +15,7 @@ The inspector reads the deployed contract from the public RPC. It does not ask f
 
 **One-click (HTTP 200 on 2026-10-29):** [AgentTab inspector](https://htmlpreview.github.io/?https://github.com/zwang1111/agenttab-portaldot/blob/main/dashboard/index.html)
 
-That link is htmlpreview in front of the repo path `dashboard/index.html` on `main`. The page script is classic `dashboard/browser.js`, which is what that previewer can run. Checked the same day: the URL returned HTTP 200.
+That link is htmlpreview in front of the repo path `dashboard/index.html` on `main`. The page script is classic `dashboard/browser.js`, which is what that previewer can run. Checked 2026-10-29: the URL returned HTTP 200, and the same previewer pointed at the commit that adds `browser.js` read tab #1 and tab #2 from the public RPC.
 
 **GitHub Pages is not a demo link yet.** These returned **HTTP 404** on 2026-10-29, and the token cannot enable the site (`POST /pages` → 403):
 
